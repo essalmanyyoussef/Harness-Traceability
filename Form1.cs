@@ -1,0 +1,1178 @@
+﻿using Harness_Traceability.Models;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+using System.IO;
+ 
+using DevExpress.CodeParser;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraPrintingLinks;
+using DevExpress.XtraGrid.Views.Grid;
+using System.Drawing;
+ 
+using System.Drawing.Printing;
+using DevExpress.XtraCharts;
+
+using DevExpress.XtraRichEdit.Model;
+using DevExpress.XtraPrinting.Drawing;
+using DevExpress.XtraGrid;
+using DevExpress.CodeParser.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+
+
+namespace Harness_Traceability
+{
+    public partial class Form1 : DevExpress.XtraEditors.XtraForm
+    {
+        public static string site;
+        public string connectionString;
+        public string TT_Label1;
+        public string TT_Label2;
+        public string TT_Label3;
+        public string TT_Label4;
+        public string Server_Database;
+        public static string Harness_ID;
+        public static string Hostname;
+        public string SN_Details = "Final Label";
+        public string SN_Details_All = "False";
+        string Reference;
+        public static Form1 frm_PPl = new Form1();
+        public Form1()
+        {
+            InitializeComponent();
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private async void btn_Search_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void UpdateDataGrid(DataGridView grid, DataTable table)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => UpdateDataGrid(grid, table)));
+                }
+                else
+                {
+                    grid.DataSource = table;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ShowMessageBox(string message)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => ShowMessageBox(message)));
+                }
+                else
+                {
+                    MessageBox.Show(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                btnSearch.Enabled = false;
+                this.Text = "Harness Traceability - Developped by Central Test Enginnering - V 1.2.0";
+                btnExport.Enabled = false;
+                // Create an instance of Form2
+                this.Hide();
+                Form2 form2 = new Form2();
+
+                // Show Form2 as a dialog
+                var dialogResult = form2.ShowDialog();
+
+                // Check the result after Form2 closes
+                if (dialogResult == DialogResult.OK)
+                {
+                    // Login was successful, show Form1
+                    this.Show();
+                }
+                else
+                {
+                    // Login failed or was canceled, close Form1
+                    this.Close();
+                }
+
+                if (Form2.Site_List != null && Form2.Site_List.Rows.Count > 0)
+                {
+                    // Set the DataSource of comboBox2 to comboBoxDataTable
+                    comboBox1.DataSource = Form2.Site_List;
+                    comboBox1.DisplayMember = "SiteName";
+                }
+                else
+                {
+                    MessageBox.Show("DataTable is empty or not initialized.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        public void Solver_Errors(string Travel_Ticket)
+        {
+
+
+        }
+
+        private void btn_Close_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+
+
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int i = dataGridView1.SelectedRows[0].Index;
+                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+                    Harness_ID = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    Hostname = dataGridView1.Rows[i].Cells[10].Value.ToString();
+                    new Harness_Details().ShowDialog();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+        int rownum = 0;
+        private void dataGridView1_RowContextMenuStripNeeded(object sender, DataGridViewRowContextMenuStripNeededEventArgs e)
+        {
+            try
+            {
+                e.ContextMenuStrip = contextMenuStrip1;
+                rownum = e.RowIndex;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void dataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    this.dataGridView1.Rows[e.RowIndex].Selected = true;
+                    this.rownum = e.RowIndex;
+                    this.dataGridView1.CurrentCell = this.dataGridView1.Rows[e.RowIndex].Cells[1];
+                    this.contextMenuStrip1.Show(this.dataGridView1, e.Location);
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        //=============================PDF
+
+
+        private void ExportDataGridViewToPdf( string filePath)
+        {
+            try
+            {// Create a new PDF document in landscape mode
+             // Check if the file already exists, and delete it if necessary
+             // Attempt to delete the file if it exists
+             // Temporary file path to avoid conflicts with locked file
+                string tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".pdf");
+
+            // Retry mechanism: Try to export up to 3 times if the file is locked
+            int retries = 3;
+            bool exportSuccess = false;
+            while (retries > 0 && !exportSuccess)
+            {
+                try
+                {
+                    // Export gridControl1 to a temporary file
+                    gridControl1.ExportToPdf(tempFilePath);
+
+                    // If export is successful, move the temp file to the desired location
+                    if (File.Exists(tempFilePath))
+                    {
+                        File.Move(tempFilePath, filePath);
+                    }
+
+                    exportSuccess = true;
+                }
+                catch (IOException)
+                {
+                    // If the file is locked, retry after waiting for a short period
+                    retries--;
+                    Thread.Sleep(500); // Wait for 500ms before retrying
+                }
+            }
+
+            if (!exportSuccess)
+            {
+                // If export failed after retries, show an error
+                MessageBox.Show("The file is still in use after several attempts. Please ensure the file is not open in another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("PDF Exported successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public static string Harness_Details;
+
+
+
+     
+ 
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtOutBarcode.Text.Length > 10)
+                {
+                    chartControl1.Series.Clear(); // Clear chart if there's no data
+
+                    gridView2.OptionsBehavior.Editable = false;
+                    chartControl1.Visible = false;
+                    btnExport.Enabled = false;
+                    btnSearch.Enabled = false;
+                    site = comboBox1.Text;
+                    string serial = txtOutBarcode.Text.Replace("\r", "").Replace("\n", "");
+                    lbl_Harness1.Visible = false;
+                    lbl_Harness2.Visible = false;
+                    lblErrors.Visible = false;
+                    lbl_More_Details.Visible = false;
+
+
+
+                    DataTable data = new DataTable();
+                    DataTable data1 = new DataTable();
+                    //DataTable data2 = new DataTable();
+
+                    //Chaine_Connexion();
+                    //ShowProgressBar(true
+                    //
+                    IMG_Searching.Visible = true;
+                    btn_Search.Enabled = false;
+                    txtOutBarcode.Enabled = false;
+                    gridControl1.Visible = false; // Changed from dataGridView1 to gridControl1
+                    dataGridView2.Visible = false; // Assuming this is still a DataGridView
+                    gridControl1.DataSource = null; // Changed from dataGridView1 to gridControl1
+                    dataGridView2.DataSource = null;
+                    dataGridView1.DataSource = null;
+                    gridControl2.Visible = false;
+                    gridControl2.DataSource = null;
+
+                    await Task.Run(async () =>
+                    {
+                        if (site == "")
+                        {
+                            MessageBox.Show("Please select the Site");
+                            btnSearch.Enabled = true;
+                            return;
+                        }
+                        else
+                        {
+                            if (txtOutBarcode.Text == "" || txtOutBarcode.Text == " " || txtOutBarcode.Text == "  ")
+                            {
+                                MessageBox.Show("Please enter the TT/Final Label");
+                                btnSearch.Enabled = true;
+                                return;
+                            }
+                            else
+                            {
+                                if (site == "K1")
+                                {
+                                    ClsData.Connect("MOKEMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "K2")
+                                {
+                                    ClsData.Connect("MOASMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "MFZ")
+                                {
+                                    ClsData.Connect("MOFZMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "AA")
+                                {
+                                    ClsData.Connect("MOAAMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "Skirat")
+                                {
+                                    ClsData.Connect("MOSKMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "PortSaid")
+                                {
+                                    ClsData.Connect("EGPSMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "TenthRamadan")
+                                {
+                                    ClsData.Connect("EGTRMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "SixthOctober")
+                                {
+                                    ClsData.Connect("EGSOMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "Alba")
+                                {
+                                    ClsData.Connect("ROAIMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "Deva")
+                                {
+                                    ClsData.Connect("RODVMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                if (site == "Monastir")
+                                {
+                                    ClsData.Connect("TNMOMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+                                }
+                                //WriteLogs("S/N \t\t\t : " + txtOutBarcode.Text + "  " + SN_Details + "  " + SN_Details_All + "\nSite \t\t\t : " + site + "\nUsername \t\t : " + Form2.User_name + "\nDate & Time \t : " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\n---------------------------------------------------------------------------");
+                                if (RDB_OUT.Checked == true)
+                                {
+                                    data = ClsOrders.GetTraceability(serial);
+                                    //dataGridView3.DataSource = data; // Assuming this is still a DataGridView
+                                    if (data.Rows.Count > 0)
+                                    {
+                                        string p1 = data.Rows[0].ItemArray[1].ToString();
+                                        string p2 = data.Rows[0].ItemArray[3].ToString();
+                                        string p3 = data.Rows[0].ItemArray[4].ToString();
+                                        Reference = data.Rows[0].ItemArray[0].ToString();
+
+                                        if (p1.Length > 15)
+                                        {
+                                            data = ClsOrders.GetTraceability2(p1);
+                                        }
+                                        if (CheckBox_Searching.Checked == true)
+                                        {
+                                            data1 = ClsOrders.SelvedError(p1);
+                                            if (data1.Rows.Count == 0)
+                                            {
+                                                if (p2.Length > 6)
+                                                {
+                                                    data1 = ClsOrders.SelvedError(p2);
+                                                }
+
+                                                if (data1.Rows.Count == 0)
+                                                {
+                                                    if (p3.Length > 6)
+                                                    {
+                                                        data1 = ClsOrders.SelvedError(p3);
+                                                    }
+                                                }
+                                            }
+
+
+                                        }
+                                        else
+                                        {
+
+                                            ET_Errors();
+                                        }
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    string p1 = txtOutBarcode.Text;
+                                    data = ClsOrders.GetTraceability2(p1);
+                                    data1 = ClsOrders.SelvedError(p1);
+
+                                    //ET_Errors();
+
+
+
+                                }
+                            }
+                        }
+                    });
+
+                    gridControl1.DataSource = data; // Changed from dataGridView1 to gridControl1
+                    dataGridView1.DataSource = data;
+
+                    if (RDBTT.Checked == true || CheckBox_Searching.Checked == true)
+                    {
+                        dataGridView2.DataSource = data1;
+                        gridControl2.DataSource = data1;
+                        Chart_Traceability();
+                        chartControl1.Visible = true;
+                    }
+                    //gridControl2.DataSource = data1;
+                    if (data.Rows.Count > 0)
+                    {
+                        gridView1.OptionsBehavior.Editable = false;
+                        gridView1.Columns[7].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+                        gridView1.Columns[7].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                    }
+
+
+
+                    // Assuming you have a GridControl named gridControl1
+                    GridView view = gridControl1.MainView as GridView;
+                    if (view != null)
+                    {
+                        view.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
+                        view.BestFitColumns(); // Adjust columns to fit their content
+                    }
+
+
+
+                    btnExport.Enabled = true;
+                    btnSearch.Enabled = true;
+                    IMG_Searching.Visible = false;
+                    btn_Search.Enabled = true;
+                    txtOutBarcode.Enabled = true;
+                    //if (data1.Rows.Count > 0 || dataGridView2.Rows.Count > 0 || dataGridView2.DataSource != null)
+                    if (data1.Rows.Count > 0)
+                    {
+                        HideEmptyColumns();
+
+                        //dataGridView1.Columns[10].Visible = false; // Adjust as necessary for gridControl1
+                        dataGridView2.Visible = false; // Assuming this is still a DataGridView
+                        gridControl2.Visible = true;
+                        lblErrors.Visible = false;
+                        //if (gridControl2.DataSource != null||data1.Rows.Count>0)
+                        if (data1.Rows.Count > 0)
+                        {
+                            gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                            gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                        }
+                        GridView view2 = gridControl2.MainView as GridView;
+                        if (view2 != null)
+                        {
+                            view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
+                            view2.BestFitColumns(); // Adjust columns to fit their content
+                        }
+                        //dataGridView2.Columns[0].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[3].Width = 50; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[4].Width = 40; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[5].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[6].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[7].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[8].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[9].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[10].Width = 70; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[11].Width = 90; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[12].Width = 90; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[13].Width = 50; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[14].Width = 60; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[15].Width = 60; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[16].Width = 60; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[17].Width = 60; // Assuming this is still a DataGridView
+                        //dataGridView2.Columns[2].Width = 200; // Assuming this is still a DataGridView
+                        if (RDB_OUT.Checked == true)
+                        {
+                            Harness_Details =
+                                "\n                       Harness Barcode                  :     " + txtOutBarcode.Text
+                                + "\n                   Travel Ticket                             :     " + serial
+                                + "\n                   Reference                                 :     " + Reference;
+                        }
+                        else
+                        {
+                            // Additional logic if needed
+                        }
+                    }
+                    else
+                    {
+
+                        dataGridView2.Visible = false; // Assuming this is still a DataGridView
+                        gridControl2.Visible = false;
+                        lblErrors.Visible = true;
+                        if (RDB_OUT.Checked == true)
+                        {
+                            if (CheckBox_Searching.Checked == true)
+                            {
+
+                            }
+                            else
+                            {
+                                ET_Errors();
+                                Chart_Traceability();
+                                chartControl1.Visible = true;
+                            }
+                        }
+                    }
+                    if (data.Rows.Count > 0)
+                    {
+                        gridControl1.Visible = true; // Changed from dataGridView1 to gridControl1
+                        lbl_Harness1.Visible = false;
+                        lbl_Harness2.Visible = false;
+                        lbl_More_Details.Visible = true;
+                    }
+                    else
+                    {
+                        gridControl1.Visible = false; // Changed from dataGridView1 to gridControl1
+                        lbl_Harness1.Visible = true;
+                        lbl_Harness2.Visible = true;
+                        lbl_More_Details.Visible = false;
+                    }
+
+                    //if (data1.Rows.Count > 0)
+                    //{
+                    //    gridControl2.Visible = true; // Changed from dataGridView1 to gridControl1
+                    //    lblErrors.Visible = false;
+                    //    chartControl1.Visible = true;
+                    //}
+                    //else
+                    //{
+                    //    gridControl2.Visible = false; // Changed from dataGridView1 to gridControl1
+                    //    lblErrors.Visible = true;
+                    //    chartControl1.Visible = false;
+                    //}
+                    //ET_Errors();
+                    if (gridControl2.DataSource != null)
+                    {
+                        HideEmptyColumns();
+                    }
+                    Chart_Traceability();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter the full S/N. It must contain more than 15 characters!", "Harness S/N error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                txtOutBarcode.Enabled = true;
+                txtOutBarcode.ReadOnly = false;
+                IMG_Searching.Visible = false;
+                string message = ex.Message;
+                //throw ex;
+            }
+
+        }
+
+        private void gridControl1_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Check if there is a valid row under the double-click
+                var hitInfo = gridView1.CalcHitInfo(gridControl1.PointToClient(Control.MousePosition));
+                if (hitInfo.InRow || hitInfo.InRowCell)
+                {
+                    // Get the data from the selected row (example using the first column as ID)
+                    var selectedRow = gridView1.GetDataRow(hitInfo.RowHandle);
+                    if (selectedRow != null)
+                    {
+                        // Retrieve values from the row as needed
+                        var valueInColumn = selectedRow[1]; // Replace with actual column name
+
+                        // Open the new form, passing the required data
+                        Harness_ID = selectedRow[1].ToString();
+                        Hostname = selectedRow[10].ToString();
+                        //MessageBox.Show("Harness ID : " + selectedRow[1].ToString() + "  \nHostname   : " + selectedRow[10].ToString());
+                        new Harness_Details().ShowDialog();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+            //System.Diagnostics.Process.Start(new ProcessStartInfo
+            //{
+            //    FileName = "https://app.powerbi.com/links/wZNNNONAnc?ctid=4a1d14a7-833e-4ee8-a4d8-f45cab9c6bf9&pbi_source=linkShare",
+            //    UseShellExecute = true
+            //});
+        }
+
+
+ 
+
+        private void button1_Click1(object sender, EventArgs e)
+        {
+            try
+            {
+
+                // Create a composite link
+                CompositeLink compositeLink = new CompositeLink(new PrintingSystem());
+
+                // Add the first grid control to the composite link
+
+                Link Document_Title = new Link();
+                Document_Title.CreateDetailArea += (customSender, customE) =>
+                {
+                    customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Center);
+                    customE.Graph.Font = new Font("Berlin Sans FB", 20, FontStyle.Bold);
+
+                    // Draw the logo image from resources in its original size
+                    Image logo = Harness_Traceability.Properties.Resources.sews_logo;
+                    customE.Graph.DrawImage(logo, new RectangleF(0, 0, logo.Width, logo.Height), BorderSide.None, Color.Transparent);
+
+                    // Draw the title text below the logo
+                    customE.Graph.DrawString("Harness Traceability\n\n", Color.Black, new RectangleF(0, logo.Height, customE.Graph.ClientPageSize.Width, 30), BorderSide.None);
+                };
+                compositeLink.Links.Add(Document_Title);
+
+                Link Harness_SN = new Link();
+                Harness_SN.CreateDetailArea += (customSender, customE) =>
+                {
+                    customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Near);
+                    customE.Graph.Font = new Font("Arial", 14, FontStyle.Bold);
+
+                    customE.Graph.DrawString("Harness S/N\t:   " + txtOutBarcode.Text + "\nSite\t:   SEWS " + comboBox1.Text, Color.Black, new RectangleF(0, 0, customE.Graph.ClientPageSize.Width, 50), BorderSide.None);
+                };
+                compositeLink.Links.Add(Harness_SN);
+
+                PrintableComponentLink link1 = new PrintableComponentLink();
+                link1.Component = gridControl1;
+                compositeLink.Links.Add(link1);
+
+                // Add a custom link for the text between the grids
+                Link customTextLink = new Link();
+                customTextLink.CreateDetailArea += (customSender, customE) =>
+                {
+                    customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Center);
+                    customE.Graph.Font = new Font("Arial", 16, FontStyle.Bold);
+                    customE.Graph.DrawString("\nList of the Errors\n\n", Color.Black, new RectangleF(0, 0, customE.Graph.ClientPageSize.Width, 50), BorderSide.None);
+                };
+                compositeLink.Links.Add(customTextLink);
+
+                // Add the second grid control to the composite link
+                PrintableComponentLink link2 = new PrintableComponentLink();
+                link2.Component = gridControl2;
+                compositeLink.Links.Add(link2);
+
+                // Set the page settings
+                compositeLink.PaperKind = (DevExpress.Drawing.Printing.DXPaperKind)PaperKind.A3;
+                compositeLink.Landscape = true;
+
+                // Flag to check if the title has been printed
+                bool titlePrinted = false;
+
+                // Update the footer after pages are built
+                compositeLink.PrintingSystem.AfterBuildPages += (psSender, psE) =>
+                {
+                    int totalPages = compositeLink.PrintingSystem.Pages.Count;
+                    for (int i = 0; i < totalPages; i++)
+                    {
+                        var page = compositeLink.PrintingSystem.Pages[i];
+                        page.AssignWatermark(new PageWatermark()
+                        {
+                            Text = $"Page {i + 1} of {totalPages}",
+                            Font = new Font("Arial", 10),
+                            ForeColor = Color.Black,
+                            TextTransparency = 150,
+                            ShowBehind = false
+                        });
+                    }
+                };
+
+                // Export to PDF
+                compositeLink.ExportToPdf(@"C:\Emdep\TEST\MyGrid.pdf");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        //1111240922530136610-63UA0
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                GridView view = gridControl1.MainView as GridView;
+                if (view != null)
+                {
+                    view.BestFitColumns();
+                }
+                GridView view2 = gridControl2.MainView as GridView;
+                if (view2 != null)
+                {
+                    view2.BestFitColumns();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void HideEmptyColumns()
+        {
+            try
+            {
+                GridControl gridControl2 = this.gridControl2; // Assuming 'this' refers to your form or control containing the grid
+                GridView gridView = gridControl2.MainView as GridView;
+                if (gridView != null)
+                {
+                    // Check if column 16 is empty
+                    bool isColumn16Empty = true;
+                    for (int i = 0; i < gridView.DataRowCount; i++)
+                    {
+                        if (gridView.GetRowCellValue(i, gridView.Columns[15]) != null && !string.IsNullOrEmpty(gridView.GetRowCellValue(i, gridView.Columns[15]).ToString()))
+                        {
+                            isColumn16Empty = false;
+                            break;
+                        }
+                    }
+
+                    // Check if column 17 is empty
+                    bool isColumn17Empty = true;
+                    for (int i = 0; i < gridView.DataRowCount; i++)
+                    {
+                        if (gridView.GetRowCellValue(i, gridView.Columns[16]) != null && !string.IsNullOrEmpty(gridView.GetRowCellValue(i, gridView.Columns[16]).ToString()))
+                        {
+                            isColumn17Empty = false;
+                            break;
+                        }
+                    }
+
+                    // Hide columns if they are empty
+                    gridView.Columns[15].Visible = !isColumn16Empty;
+                    gridView.Columns[16].Visible = !isColumn17Empty;
+                    gridView.Columns[14].Visible = !isColumn16Empty;
+                    gridView.Columns[17].Visible = !isColumn17Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void ET_Errors()
+        {
+            try
+            {
+                // Get the GridView associated with gridControl1
+                var gridView = gridControl1.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+
+                if (gridView != null) // Ensure the MainView is a GridView
+                {
+                    // Loop through each row in the grid
+                    for (int i = 0; i < gridView.RowCount; i++)
+                    {
+                        // Get the value of the 3rd column
+                        string column3Value = gridView.GetRowCellValue(i, gridView.Columns[2])?.ToString();
+
+                        // Check if the value contains 'ET' or 'Elec'
+                        if (!string.IsNullOrEmpty(column3Value) &&
+                            (column3Value.Contains("ET") || column3Value.Contains("ELEC") || column3Value.Contains("ELECTRIC")))
+                        {
+                            // Get the value of the 7th column
+
+                            DataTable DD = new DataTable();
+                            DataTable DD1 = new DataTable();
+                            DD = ClsOrders.GetDates(gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString(), Convert.ToDateTime(gridView.GetRowCellValue(i, gridView.Columns[7])?.ToString()));
+                            if (DD != null)
+                            {
+                                label3.Text = DD.Rows[0].ItemArray[7].ToString() + " // " + Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString());
+                                DD1 = ClsOrders.SelvedError_by_Date(Convert.ToDateTime(DD.Rows[0].ItemArray[7].ToString()), Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString()), gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString());
+                                gridControl2.DataSource = DD1;
+                                gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                                gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                                GridView view2 = gridControl2.MainView as GridView;
+                                if (view2 != null)
+                                {
+                                    view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
+                                    view2.BestFitColumns(); // Adjust columns to fit their content
+                                }
+                                gridControl2.Visible = true;
+                                
+                                Chart_Traceability();
+                                chartControl1.Visible = true;
+                            }
+
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The MainView of gridControl1 is not a GridView. Please check the configuration.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void Chart_Traceability()
+        {
+            Dictionary<int, string> errorTypeDescriptions = new Dictionary<int, string>()
+{
+    { 0, "Missing Detection" },
+    { 1, "Extra Detection" },
+    { 2, "Missing Connector" },
+    { 3, "Extra Connector" },
+    { 4, "Short Through Diode" },
+    { 5, "Open In Diode" },
+    { 6, "Diode Inverted" },
+    { 7, "Inversion (Misallocation)" },
+    { 8, "Possible Inversion" },
+    { 9, "Short-circuit" },
+    { 10, "No Continuity" },
+    { 11, "Bad End (Wrong Cavity)" }
+};
+
+            // Get the DataTable from gridControl1
+            DataTable sourceTable = gridControl2.DataSource as DataTable;
+            if (sourceTable == null) return;
+
+            // Group and map Error Types
+            var groupedData = sourceTable.AsEnumerable()
+                .GroupBy(row => row.Field<int>("Error Type"))
+                .Select(g => new
+                {
+                    ErrorTypeLabel = errorTypeDescriptions.ContainsKey(g.Key) ? errorTypeDescriptions[g.Key] : $"Unknown ({g.Key})",
+                    Count = g.Count()
+                })
+                .ToList();
+
+            // Create and bind pie chart
+            chartControl1.Series.Clear();
+            Series series = new Series("Error Frequencies", ViewType.Pie);
+            series.DataSource = groupedData;
+            series.ArgumentDataMember = "ErrorTypeLabel"; // Pie slices
+            series.ValueDataMembers.AddRange("Count");    // Slice size
+
+            chartControl1.Series.Add(series);
+
+            // Pie appearance settings
+            PieSeriesLabel label = series.Label as PieSeriesLabel;
+            if (label != null)
+            {
+                label.TextPattern = "{A}: {V} ({VP:P0})"; // Label: Name: Count (Percentage)
+                label.Position = PieSeriesLabelPosition.TwoColumns;
+            }
+
+            ((PieSeriesView)series.View).ExplodedDistancePercentage = 10;
+            ((PieSeriesView)series.View).ExplodeMode = PieExplodeMode.All;
+
+            // Show legend
+            chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+        }
+
+        public static void WriteLogs(string textToWrite)
+        {
+            string filePath = @"\\ukhqits001\Public\Electrical Test\Harness Traceability App\Application Files\Harness Traceability_1_1_0_0\SystemConfig.syslog";
+             
+
+            try
+            {
+                // Check if the file exists
+                if (!File.Exists(filePath))
+                {
+                    // Create the file and write the text
+                    using (StreamWriter sw = File.CreateText(filePath))
+                    {
+                        sw.WriteLine(textToWrite);
+                    }
+                }
+                else
+                {
+                    // File exists, append the text
+                    using (StreamWriter sw = File.AppendText(filePath))
+                    {
+                        sw.WriteLine(textToWrite);
+                    }
+                }
+
+                //Console.WriteLine("Text written successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private void btnContact_Click(object sender, EventArgs e)
+        {
+            string email = "SEWS-ECentralElectricalTestEngineers@sgcci.onmicrosoft.com";
+            string subject = "Harness Traceability Software";
+
+            string mailto = $"mailto:{email}?subject={Uri.EscapeDataString(subject)}";
+
+            try
+            {
+                System.Diagnostics.Process.Start(mailto);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to create Outlook email.\n" + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!gridControl1.Visible)
+                {
+                    MessageBox.Show("Please enter S/N of the harness and start searching to generate the Traceability report!");
+                }
+                else
+                {
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+                        saveFileDialog.DefaultExt = "pdf";
+                        saveFileDialog.AddExtension = true;
+                        saveFileDialog.Title = "Save PDF File";
+                        saveFileDialog.FileName = txtOutBarcode.Text.Replace('\\', '_') + "_Traceability.pdf";
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string filePath = saveFileDialog.FileName;
+                            // Create a composite link
+                            CompositeLink compositeLink = new CompositeLink(new PrintingSystem());
+
+                            // Add the first grid control to the composite link
+                            Link Document_Title = new Link();
+                            Document_Title.CreateDetailArea += (customSender, customE) =>
+                            {
+                                customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Near);
+                                customE.Graph.Font = new Font("Arial", 35, FontStyle.Bold);
+
+                                // Draw the logo image from resources in its original size
+                                Image logo = Harness_Traceability.Properties.Resources.sews_logo;
+                                customE.Graph.DrawImage(logo, new RectangleF(0, 0, logo.Width, logo.Height), BorderSide.None, Color.Transparent);
+
+                                // Draw the title text next to the logo
+                                float textX = logo.Width; // Adjust the X position to be next to the logo with some padding
+                                customE.Graph.DrawString("\n\tHarness Traceability\n\n", Color.Black, new RectangleF(textX, 0, customE.Graph.ClientPageSize.Width - textX, logo.Height), BorderSide.None);
+                            };
+                            compositeLink.Links.Add(Document_Title);
+
+                            Link Harness_SN = new Link();
+                            Harness_SN.CreateDetailArea += (customSender, customE) =>
+                            {
+                                customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Near);
+                                customE.Graph.Font = new Font("Arial", 14, FontStyle.Bold);
+
+                                customE.Graph.DrawString("Harness S/N\t:   " + txtOutBarcode.Text + "\t\t\tSite\t:   SEWS-" + comboBox1.Text + "\nPrinted by\t:   " + Form2.User_name + "\t\t\tE-mail\t:   " + Form2.User_Mail + "\n\n\n\n\n", Color.Black, new RectangleF(0, 0, customE.Graph.ClientPageSize.Width, 50), BorderSide.None);
+                            };
+                            compositeLink.Links.Add(Harness_SN);
+
+                            PrintableComponentLink link1 = new PrintableComponentLink();
+                            link1.Component = gridControl1;
+                            compositeLink.Links.Add(link1);
+
+                            // Add a custom link for the text between the grids
+                            Link customTextLink = new Link();
+                            customTextLink.CreateDetailArea += (customSender, customE) =>
+                            {
+                                customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Center);
+                                customE.Graph.Font = new Font("Arial", 16, FontStyle.Bold);
+                                customE.Graph.DrawString("\nList of the Errors\n\n", Color.Black, new RectangleF(0, 0, customE.Graph.ClientPageSize.Width, 50), BorderSide.None);
+                            };
+                            compositeLink.Links.Add(customTextLink);
+
+                            // Add the second grid control to the composite link
+
+
+                            GridView view2 = gridControl2.MainView as GridView;
+                            if (view2 != null)
+                            {
+                                // Set the print appearance with a smaller font
+                                view2.AppearancePrint.Row.Font = new Font("Arial", 8, FontStyle.Regular);
+                                view2.AppearancePrint.HeaderPanel.Font = new Font("Arial", 8, FontStyle.Bold);
+                            }
+
+                            // Add the second grid control to the composite link
+                            PrintableComponentLink link2 = new PrintableComponentLink();
+                            link2.Component = gridControl2;
+                            compositeLink.Links.Add(link2);
+
+
+                            //PrintableComponentLink link2 = new PrintableComponentLink();
+                            //link2.Component = gridControl2;
+                            //link2.CreateDetailArea += (customSender, customE) =>
+                            //{
+                            //    customE.Graph.Font = new Font("Arial", 6, FontStyle.Regular); // Reduced font size
+                            //};
+
+                            //compositeLink.Links.Add(link2);
+
+                            // Add the error code descriptions as a final custom link
+                            Link errorCodesLink = new Link();
+                            errorCodesLink.CreateDetailArea += (customSender, customE) =>
+                            {
+                                customE.Graph.StringFormat = new BrickStringFormat(StringAlignment.Near);
+                                customE.Graph.Font = new Font("Arial", 12, FontStyle.Regular);
+                                string errorCodesText = "Error Type Code:\n\t" + "0   - Missing Detection \t 1   - Extra Detection \t 2   - Missing Connector\n"
+                                + "\t3   - Extra Connector \t 4   - Short Through Diode \t 5   - Open In Diode\n"
+                                + "\t6   - Diode Inverted \t\t 7   - Inversion (Misallocation)  \t 8   - Possible Inversion\n"
+                                + "\t9   - Short-circuit \t\t 10  - No Continuity \t\t 11  - Bad End (Wrong Cavity)";
+
+
+
+
+                                // Adjust rectangle size and position relative to the second grid
+                                float yPosition = 0; // Start at the current Y position
+                                customE.Graph.DrawString(errorCodesText, Color.Black, new RectangleF(0, yPosition, customE.Graph.ClientPageSize.Width, 100), BorderSide.None);
+                            };
+                            compositeLink.Links.Add(errorCodesLink);
+
+                            PrintableComponentLink chartLink = new PrintableComponentLink();
+                            chartLink.Component = chartControl1;
+                            compositeLink.Links.Add(chartLink);
+
+
+
+                            // Set the page settings
+                            compositeLink.PaperKind = (DevExpress.Drawing.Printing.DXPaperKind)PaperKind.A2;
+                            compositeLink.Landscape = true;
+
+                            // Flag to check if the title has been printed
+                            bool titlePrinted = false;
+
+                            // Update the footer after pages are built
+                            compositeLink.PrintingSystem.AfterBuildPages += (psSender, psE) =>
+                            {
+                                int totalPages = compositeLink.PrintingSystem.Pages.Count;
+                                for (int i = 0; i < totalPages; i++)
+                                {
+                                    var page = compositeLink.PrintingSystem.Pages[i];
+                                    page.AssignWatermark(new PageWatermark()
+                                    {
+                                        Text = $"Page {i + 1} of {totalPages}",
+                                        Font = new Font("Arial", 30),
+                                        ForeColor = Color.Black,
+                                        TextTransparency = 150,
+                                        ShowBehind = false
+                                    });
+                                }
+                            };
+
+                            // Export to PDF
+                            compositeLink.ExportToPdf(@filePath);
+                            MessageBox.Show("PDF Exported successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_Contact_Click(object sender, EventArgs e)
+        {
+            string email = "SEWS-ECentralElectricalTestEngineers@sgcci.onmicrosoft.com";
+            string subject = "Harness Traceability Software";
+
+            string mailto = $"mailto:{email}?subject={Uri.EscapeDataString(subject)}";
+
+            try
+            {
+                System.Diagnostics.Process.Start(mailto);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to create Outlook email.\n" + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtOutBarcode_TextChanged(object sender, EventArgs e)
+        {
+            if(txtOutBarcode.Text.Replace(" ","")=="")
+            {
+                btnSearch.Enabled = false;
+            }
+            else
+            {
+                btnSearch.Enabled = true;
+            }
+        }
+
+        private void RDBTT_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox_Searching.Checked = false;
+            CheckBox_Searching.Visible = false;
+            SN_Details = "Travel Ticket";
+            SN_Details_All = "";
+    }
+
+        private void RDB_OUT_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox_Searching.Visible = true;
+            SN_Details = "Final Label";
+            SN_Details_All = "False";
+        }
+
+        private void CheckBox_Searching_CheckedChanged(object sender, EventArgs e)
+        {
+            SN_Details_All = "True";
+        }
+    }
+}
