@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnExport.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="simpleButton2.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAfdEVYdFRpdGxlAEV4cG9ydDtYc2x0O0V4cG9ydFRv
-        WHNsdDsT1nubAAABJElEQVRYR+WTPQ6CQBCFPZ9H8QCeYFoKY0FFTWUoqSxMrLwDlYmH0GLNMy4hbwZ2
-        EQR/XvJll2Gd+ULchXNuMSeqMDWqMDWqMDWq4BER15OziCxFBL9VcP8ogT7B+SRJblmWLY1eqn9QgAeE
-        AoGqqkyJoMA6T90QvABiSUBgnaeKtwhYElECiLWC3elQN7fOIPyfeUpcIREt4AexQHPfdpYFEC+B28HD
-        lYBviJWH8jt+Roxr2eTCw5WAb+gHNwX4S1hnuwIJHm4K8Mp7/jr8vi1RAkMI5SsEFNxkSIIC21WhsK7V
-        kHB/MKpAsTliyAPE75tQfT+qQMeg+tmo/4lAW/2tAm2ZRCCW3xSIyfcIxEJNg4kSeIHPEOjD2AIlDwhQ
-        1gJzcgeMgNC70USClAAAAABJRU5ErkJggg==
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAAH3RFWHRUaXRsZQBFeHBvcnQ7
+        WHNsdDtFeHBvcnRUb1hzbHQ7E9Z7mwAAASRJREFUWEflkz0OgkAQhT2fR/EAnmBaCmNBRU1lKKksTKy8
+        A5WJh9BizTMuIW8GdhEEf17yZZdhnflC3IVzbjEnqjA1qjA1qjA1quAREdeTs4gsRQS/VXD/KIE+wfkk
+        SW5Zli2NXqp/UIAHhAKBqqpMiaDAOk/dELwAYklAYJ2nircIWBJRAoi1gt3pUDe3ziD8n3lKXCERLeAH
+        sUBz33aWBRAvgdvBw5WAb4iVh/I7fkaMa9nkwsOVgG/oBzcF+EtYZ7sCCR5uCvDKe/46/L4tUQJDCOUr
+        BBTcZEiCAttVobCu1ZBwfzCqQLE5YsgDxO+bUH0/qkDHoPrZqP+JQFv9rQJtmUQglt8UiMn3CMRCTYOJ
+        EniBzxDow9gCJQ8IUNYCc3IHjIDQu9FEgpQAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="simpleButton1.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -144,7 +144,4 @@
         AAAASUVORK5CYII=
 </value>
   </data>
-  <metadata name="barAndDockingController1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>

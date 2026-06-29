@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Harness_Traceability.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,13 @@ namespace Harness_Traceability
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 F = new Form1();
             F.Visible = false;
-            Application.Run(new Form1());
+            Application.Run(new frmPrincipal());
+            //Application.Run(new frmMoodle());
+            
+            
+            //================== Claim Test
+            //ClsData.Connect("MOKEMLS001", "ET_DT", "ETDTAdmin", "O}jo75n%iGJ9");
+            //Application.Run(new frmClaim());
         }
     }
 }

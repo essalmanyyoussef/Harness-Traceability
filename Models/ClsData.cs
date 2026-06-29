@@ -15,7 +15,45 @@ namespace Harness_Traceability.Models
  
         private static string cnxString = "";
         #endregion
+        public static        string            passwor_ET_DT = "O}jo75n%iGJ9";
+        public static string ConnectionString =
+                "Server=MOKEMLS001;Database=ET_DT;User Id=ETDTAdmin;Password="+ passwor_ET_DT + ";TrustServerCertificate=True;";
 
+        public static int ExecuteProcedure(string procedureName, Dictionary<string, object> parameters, bool returnId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    foreach (var p in parameters)
+                    {
+                        cmd.Parameters.AddWithValue(p.Key, p.Value ?? DBNull.Value);
+                    }
+
+                    if (returnId)
+                    {
+                        SqlParameter outputParam = new SqlParameter("@outer", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+                    }
+
+                    cmd.ExecuteNonQuery();
+
+                    if (returnId)
+                    {
+                        return Convert.ToInt32(cmd.Parameters["@outer"].Value);
+                    }
+
+                    return 0;
+                }
+            }
+        }
 
 
         #region Public Methods
@@ -35,49 +73,7 @@ namespace Harness_Traceability.Models
     }
 
     #region StoredProcedure
-    public static Int32 ExecuteProcedure(String procedureName, Dictionary<string, object> parameters, bool paramDirection)
-    {
-        SqlConnection sqlConn = new SqlConnection(cnxString);
-        DataSet ds = new DataSet();
-        Int32 result = 9999;
-        try
-        {
-            SqlCommand sqlCmd = new SqlCommand(procedureName.ToString(), sqlConn);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.CommandTimeout = 0;
-            if (parameters != null)
-            {
-                foreach (string parameter in parameters.Keys)
-                {
-                    sqlCmd.Parameters.AddWithValue(parameter, parameters[parameter]);
-                }
-            }
-            if (paramDirection)
-            {
-                sqlCmd.Parameters.Add("@outer", SqlDbType.Int);
-                sqlCmd.Parameters["@outer"].Direction = ParameterDirection.Output;
-            }
 
-            sqlConn.Open();
-            sqlCmd.ExecuteNonQuery();
-            if (paramDirection)
-                result = (Int32)sqlCmd.Parameters["@outer"].Value;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.Print(
-            string.Format("An exception occured when executing the {0} stored procedure. {1}",
-            procedureName, ex.Message));
-
-    
-        }
-        finally
-        {
-            if (sqlConn.State == ConnectionState.Open) sqlConn.Close();
-            sqlConn.Dispose();
-        }
-        return result;
-    }
     // 
     public static DataTable ExecuteProcedureTbl(String procedureName, Dictionary<string, object> parameters)
     {

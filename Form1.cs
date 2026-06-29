@@ -6,32 +6,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-
 using System.IO;
- 
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics;
 using DevExpress.CodeParser;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraPrintingLinks;
 using DevExpress.XtraGrid.Views.Grid;
-using System.Drawing;
- 
-using System.Drawing.Printing;
 using DevExpress.XtraCharts;
-
-using DevExpress.XtraRichEdit.Model;
+//using DevExpress.XtraRichEdit;
 using DevExpress.XtraPrinting.Drawing;
 using DevExpress.XtraGrid;
-using DevExpress.CodeParser.Diagnostics;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
+//using DevExpress.CodeParser.Diagnostics;
+using DevExpress.XtraEditors.Repository;
+using System.Globalization;
 
 
 
 namespace Harness_Traceability
 {
-    public partial class Form1 : DevExpress.XtraEditors.XtraForm
+    
+    public partial class Form1 : DevExpress.XtraBars.Ribbon.RibbonForm
     {
+        //RepositoryItemHyperLinkEdit linkVisionReport;
+        private RepositoryItemHyperLinkEdit linkVisionReport;
         public static string site;
         public string connectionString;
         public string TT_Label1;
@@ -44,6 +45,9 @@ namespace Harness_Traceability
         public string SN_Details = "Final Label";
         public string SN_Details_All = "False";
         string Reference;
+        string Vision_Hostname = "";
+        DateTime Vision_Datetime;
+
         public static Form1 frm_PPl = new Form1();
         public Form1()
         {
@@ -53,6 +57,7 @@ namespace Harness_Traceability
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
         }
 
         private async void btn_Search_Click(object sender, EventArgs e)
@@ -104,26 +109,26 @@ namespace Harness_Traceability
             try
             {
                 btnSearch.Enabled = false;
-                this.Text = "Harness Traceability - Developped by Central Test Enginnering - V 1.2.0";
+                this.Text = "Harness Traceability Search";
                 btnExport.Enabled = false;
-                // Create an instance of Form2
-                this.Hide();
-                Form2 form2 = new Form2();
+                //// Create an instance of Form2
+                //this.Hide();
+                //Form2 form2 = new Form2();
 
-                // Show Form2 as a dialog
-                var dialogResult = form2.ShowDialog();
+                //// Show Form2 as a dialog
+                //var dialogResult = form2.ShowDialog();
 
-                // Check the result after Form2 closes
-                if (dialogResult == DialogResult.OK)
-                {
-                    // Login was successful, show Form1
-                    this.Show();
-                }
-                else
-                {
-                    // Login failed or was canceled, close Form1
-                    this.Close();
-                }
+                //// Check the result after Form2 closes
+                //if (dialogResult == DialogResult.OK)
+                //{
+                //    // Login was successful, show Form1
+                //    this.Show();
+                //}
+                //else
+                //{
+                //    // Login failed or was canceled, close Form1
+                //    this.Close();
+                //}
 
                 if (Form2.Site_List != null && Form2.Site_List.Rows.Count > 0)
                 {
@@ -288,6 +293,7 @@ namespace Harness_Traceability
         {
             try
             {
+                btn_Contact.Visible = false;
                 if (txtOutBarcode.Text.Length > 10)
                 {
                     chartControl1.Series.Clear(); // Clear chart if there's no data
@@ -386,6 +392,15 @@ namespace Harness_Traceability
                                     ClsData.Connect("TNMOMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
                                 }
                                 //WriteLogs("S/N \t\t\t : " + txtOutBarcode.Text + "  " + SN_Details + "  " + SN_Details_All + "\nSite \t\t\t : " + site + "\nUsername \t\t : " + Form2.User_name + "\nDate & Time \t : " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\n---------------------------------------------------------------------------");
+                                WriteLogsToDatabase(
+    serialNumber: txtOutBarcode.Text,
+    site: site,
+    username: Form2.User_name,
+    type: SN_Details_All,
+    additionalInfo: SN_Details 
+);
+
+
                                 if (RDB_OUT.Checked == true)
                                 {
                                     data = ClsOrders.GetTraceability(serial);
@@ -397,23 +412,30 @@ namespace Harness_Traceability
                                         string p3 = data.Rows[0].ItemArray[4].ToString();
                                         Reference = data.Rows[0].ItemArray[0].ToString();
 
-                                        if (p1.Length > 15)
+                                        if (p1.Length > 11)
                                         {
                                             data = ClsOrders.GetTraceability2(p1);
+                                            if (data.Rows.Count > 15)
+                                            {
+                                                data = ClsOrders.GetTraceability(serial);
+                                            }
                                         }
                                         if (CheckBox_Searching.Checked == true)
                                         {
-                                            data1 = ClsOrders.SelvedError(p1);
+                                            if (p1.Length > 11)
+                                            {
+                                                data1 = ClsOrders.SelvedError(p1);
+                                            }
                                             if (data1.Rows.Count == 0)
                                             {
-                                                if (p2.Length > 6)
+                                                if (p2.Length > 11)
                                                 {
                                                     data1 = ClsOrders.SelvedError(p2);
                                                 }
 
                                                 if (data1.Rows.Count == 0)
                                                 {
-                                                    if (p3.Length > 6)
+                                                    if (p3.Length > 11)
                                                     {
                                                         data1 = ClsOrders.SelvedError(p3);
                                                     }
@@ -424,7 +446,7 @@ namespace Harness_Traceability
                                         }
                                         else
                                         {
-
+                                            
                                             ET_Errors();
                                         }
 
@@ -444,12 +466,17 @@ namespace Harness_Traceability
                                 }
                             }
                         }
-                    });
+                        });
 
-                    gridControl1.DataSource = data; // Changed from dataGridView1 to gridControl1
+                        gridControl1.DataSource = data; // Changed from dataGridView1 to gridControl1
                     dataGridView1.DataSource = data;
 
-                    if (RDBTT.Checked == true || CheckBox_Searching.Checked == true)
+
+                    SetupVisionReportFeature(); // Vision Report Viewer
+
+                 
+
+                if (RDBTT.Checked == true || CheckBox_Searching.Checked == true)
                     {
                         dataGridView2.DataSource = data1;
                         gridControl2.DataSource = data1;
@@ -548,6 +575,9 @@ namespace Harness_Traceability
                                 ET_Errors();
                                 Chart_Traceability();
                                 chartControl1.Visible = true;
+
+                                //gridControl2.Visible = true;
+                                //lblErrors.Visible = false;
                             }
                         }
                     }
@@ -566,28 +596,16 @@ namespace Harness_Traceability
                         lbl_More_Details.Visible = false;
                     }
 
-                    //if (data1.Rows.Count > 0)
-                    //{
-                    //    gridControl2.Visible = true; // Changed from dataGridView1 to gridControl1
-                    //    lblErrors.Visible = false;
-                    //    chartControl1.Visible = true;
-                    //}
-                    //else
-                    //{
-                    //    gridControl2.Visible = false; // Changed from dataGridView1 to gridControl1
-                    //    lblErrors.Visible = true;
-                    //    chartControl1.Visible = false;
-                    //}
-                    //ET_Errors();
                     if (gridControl2.DataSource != null)
                     {
                         HideEmptyColumns();
                     }
                     Chart_Traceability();
+                    
                 }
                 else
                 {
-                    MessageBox.Show("Please enter the full S/N. It must contain more than 15 characters!", "Harness S/N error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter the full S/N. It must contain more than 10 characters!", "Harness S/N error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -634,7 +652,7 @@ namespace Harness_Traceability
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
             //System.Diagnostics.Process.Start(new ProcessStartInfo
             //{
             //    FileName = "https://app.powerbi.com/links/wZNNNONAnc?ctid=4a1d14a7-833e-4ee8-a4d8-f45cab9c6bf9&pbi_source=linkShare",
@@ -812,46 +830,125 @@ namespace Harness_Traceability
                 // Get the GridView associated with gridControl1
                 var gridView = gridControl1.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
 
-                if (gridView != null) // Ensure the MainView is a GridView
+                //if (gridView != null) // Ensure the MainView is a GridView
+                //{
+                //    // Loop through each row in the grid
+                //    for (int i = 0; i < gridView.RowCount; i++)
+                //    {
+                //        // Get the value of the 3rd column
+                //        string column3Value = gridView.GetRowCellValue(i, gridView.Columns[2])?.ToString();
+
+                //        // Check if the value contains 'ET' or 'Elec'
+                //        if (!string.IsNullOrEmpty(column3Value) &&
+                //            (column3Value.Contains("ET") || column3Value.Contains("ELEC") || column3Value.Contains("ELECTRIC")|| column3Value.Contains("Test Electric")))
+                //        {
+                //            // Get the value of the 7th column
+
+                //            DataTable DD = new DataTable();
+                //            DataTable DD1 = new DataTable();
+                //            DD = ClsOrders.GetDates(gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString(), Convert.ToDateTime(gridView.GetRowCellValue(i, gridView.Columns[7])?.ToString()));
+                //            if (DD != null)
+                //            {
+                //                label3.Text = DD.Rows[0].ItemArray[7].ToString() + " // " + Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString());
+                //                DD1 = ClsOrders.SelvedError_by_Date(Convert.ToDateTime(DD.Rows[0].ItemArray[7].ToString()), Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString()), gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString());
+                //                gridControl2.DataSource = DD1;
+                //                gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                //                gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                //                GridView view2 = gridControl2.MainView as GridView;
+                //                if (view2 != null)
+                //                {
+                //                    view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
+                //                    view2.BestFitColumns(); // Adjust columns to fit their content
+                //                }
+                //                gridControl2.Visible = true;
+
+                //                Chart_Traceability();
+                //                chartControl1.Visible = true;
+                //            }
+
+
+                //        }
+                //    }
+                //}
+                if (gridView != null)
                 {
-                    // Loop through each row in the grid
+                    DataTable masterTable = null;
+
                     for (int i = 0; i < gridView.RowCount; i++)
                     {
-                        // Get the value of the 3rd column
                         string column3Value = gridView.GetRowCellValue(i, gridView.Columns[2])?.ToString();
 
-                        // Check if the value contains 'ET' or 'Elec'
                         if (!string.IsNullOrEmpty(column3Value) &&
-                            (column3Value.Contains("ET") || column3Value.Contains("ELEC") || column3Value.Contains("ELECTRIC")))
+                            (column3Value.Contains("ET") ||
+                             column3Value.Contains("ELEC") ||
+                             column3Value.Contains("ELECTRIC") ||
+                             column3Value.Contains("Test Electric")))
                         {
-                            // Get the value of the 7th column
+                            // Read date from Grid #1 (column 7)
+                            DateTime gridDate = Convert.ToDateTime(gridView.GetRowCellValue(i, gridView.Columns[7]));
 
-                            DataTable DD = new DataTable();
-                            DataTable DD1 = new DataTable();
-                            DD = ClsOrders.GetDates(gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString(), Convert.ToDateTime(gridView.GetRowCellValue(i, gridView.Columns[7])?.ToString()));
-                            if (DD != null)
+                            // Get date range from GetDates()
+                            DataTable DD = ClsOrders.GetDates(
+                                gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString(),
+                                gridDate
+                            );
+
+                            if (DD != null && DD.Rows.Count > 0)
                             {
-                                label3.Text = DD.Rows[0].ItemArray[7].ToString() + " // " + Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString());
-                                DD1 = ClsOrders.SelvedError_by_Date(Convert.ToDateTime(DD.Rows[0].ItemArray[7].ToString()), Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString()), gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString());
-                                gridControl2.DataSource = DD1;
-                                gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
-                                gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
-                                GridView view2 = gridControl2.MainView as GridView;
-                                if (view2 != null)
+                                // Extract D1 and D2 from DD
+                                DateTime D1 = Convert.ToDateTime(DD.Rows[0].ItemArray[7]);
+                                DateTime D2 = Convert.ToDateTime(DD.Rows[0].ItemArray[8]);
+
+                                // ⭐ NEW RULE: Skip if gridDate is more than 5 hours later than D1
+                                if ((gridDate - D1).TotalHours > 5)
                                 {
-                                    view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
-                                    view2.BestFitColumns(); // Adjust columns to fit their content
+                                    // Skip this row and continue to next
+                                    continue;
                                 }
-                                gridControl2.Visible = true;
-                                
-                                Chart_Traceability();
-                                chartControl1.Visible = true;
+
+                                // Get details for this row
+                                DataTable DD1 = ClsOrders.SelvedError_by_Date(
+                                    D1,
+                                    D2,
+                                    gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString()
+                                );
+
+                                if (DD1 != null && DD1.Rows.Count > 0)
+                                {
+                                    // Initialize master table structure once
+                                    if (masterTable == null)
+                                        masterTable = DD1.Clone();
+
+                                    // Append rows
+                                    foreach (DataRow row in DD1.Rows)
+                                        masterTable.ImportRow(row);
+                                }
                             }
-
-
                         }
                     }
+
+                    // Bind final combined results
+                    if (masterTable != null)
+                    {
+                        gridControl2.DataSource = masterTable;
+
+                        gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+                        gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
+
+                        GridView view2 = gridControl2.MainView as GridView;
+                        if (view2 != null)
+                        {
+                            view2.OptionsView.ColumnAutoWidth = false;
+                            view2.BestFitColumns();
+                        }
+
+                        gridControl2.Visible = true;
+                        Chart_Traceability();
+                        chartControl1.Visible = true;
+                    }
                 }
+
+
                 else
                 {
                     MessageBox.Show("The MainView of gridControl1 is not a GridView. Please check the configuration.");
@@ -1127,20 +1224,7 @@ namespace Harness_Traceability
 
         private void btn_Contact_Click(object sender, EventArgs e)
         {
-            string email = "SEWS-ECentralElectricalTestEngineers@sgcci.onmicrosoft.com";
-            string subject = "Harness Traceability Software";
 
-            string mailto = $"mailto:{email}?subject={Uri.EscapeDataString(subject)}";
-
-            try
-            {
-                System.Diagnostics.Process.Start(mailto);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to create Outlook email.\n" + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void txtOutBarcode_TextChanged(object sender, EventArgs e)
@@ -1159,14 +1243,14 @@ namespace Harness_Traceability
         {
             CheckBox_Searching.Checked = false;
             CheckBox_Searching.Visible = false;
-            SN_Details = "Travel Ticket";
+            SN_Details = "TT";
             SN_Details_All = "";
     }
 
         private void RDB_OUT_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox_Searching.Visible = true;
-            SN_Details = "Final Label";
+            SN_Details = "FL";
             SN_Details_All = "False";
         }
 
@@ -1174,5 +1258,280 @@ namespace Harness_Traceability
         {
             SN_Details_All = "True";
         }
+
+        private void SetupVisionReportFeature()
+        {
+            if (gridView1.Columns["VisionReport"] == null)
+            {
+                var col = new DevExpress.XtraGrid.Columns.GridColumn()
+                {
+                    Caption = "Vision Report",
+                    FieldName = "VisionReport",
+                    UnboundType = DevExpress.Data.UnboundColumnType.String,
+                    Visible = true,
+                    Width = 120
+                };
+
+                gridView1.Columns.Add(col);
+            }
+
+            // Just for visual hyperlink
+            var link = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
+            link.Caption = "Open Report";
+            gridControl1.RepositoryItems.Add(link);
+            gridView1.Columns["VisionReport"].ColumnEdit = link;
+
+            // Unbound data
+            gridView1.CustomUnboundColumnData += GridView1_CustomUnboundColumnData;
+
+            // IMPORTANT: handle click at grid level
+            gridView1.RowCellClick += GridView1_RowCellClick;
+        }
+
+
+        private void GridView1_CustomUnboundColumnData(object sender,
+            DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
+        {
+            if (e.Column.FieldName == "VisionReport" && e.IsGetData)
+            {
+                string station = gridView1.GetRowCellValue(e.ListSourceRowIndex, "Station")?.ToString();
+
+                if (!string.IsNullOrEmpty(station) &&
+                    station.IndexOf("Vision", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    e.Value = "Open Report";
+                }
+                else
+                {
+                    e.Value = null;
+                }
+            }
+        }
+
+        private void GridView1_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        {
+            if (e.Column.FieldName != "VisionReport")
+                return;
+
+            int rowHandle = e.RowHandle;
+
+            string station = gridView1.GetRowCellValue(rowHandle, "Station")?.ToString();
+            if (string.IsNullOrEmpty(station) ||
+                station.IndexOf("Vision", StringComparison.OrdinalIgnoreCase) < 0)
+                return;
+
+            // Hostname
+            string hostname = gridView1.GetRowCellValue(rowHandle, "Hostname")?.ToString();
+
+            // Raw date
+            string rawDate = gridView1.GetRowCellValue(rowHandle, "Test Date")?.ToString();
+            MessageBox.Show("RAW Test Date = [" + rawDate + "]");
+
+            // Supported formats
+            string[] formats =
+            {
+        "dd-MM-yyyy HH:mm:ss",
+        "dd/MM/yyyy HH:mm:ss",
+        "yyyy-MM-dd HH:mm:ss",
+        "yyyy/MM/dd HH:mm:ss",
+        "dd-MM-yyyy",
+        "dd/MM/yyyy",
+        "yyyy-MM-dd",
+        "yyyy/MM/dd",
+        "dd.MM.yyyy HH:mm:ss",
+        "dd.MM.yyyy"
+    };
+
+            // Parse into LOCAL variable
+            DateTime parsedDate;
+            if (!DateTime.TryParseExact(
+                    rawDate,
+                    formats,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out parsedDate))
+            {
+                MessageBox.Show("❌ Failed to parse Test Date: [" + rawDate + "]");
+                return;
+            }
+
+            MessageBox.Show("Parsed Vision_Datetime = " + parsedDate.ToString("dd-MM-yyyy HH:mm:ss"));
+
+            // Call with CORRECT parsed date
+            OpenVisionReport(hostname, parsedDate);
+        }
+
+        private readonly Dictionary<string, string> VisionBasePaths = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+{
+    { "MOKE", @"\\mokebks001\ETArchive$" },
+    { "MOAS", @"\\moasvcs001\ETArchive$" },
+    { "MOMZ", @"\\mofzbks001\ETArchive$" },
+    { "MOAA", @"\\moaabks001\ETArchive$" },
+    { "MOSK", @"\\moskvcs001\ETArchive$" },
+    { "TNMO", @"\\tnmobks001\ETArchive$" },
+    { "ESPS", @"\\egpsbks001\ETArchive$" },
+    { "RODV", @"\\rodvbks001\ETArchive$" },
+    { "ESSO", @"\\egpsbks001\ETArchive$" },
+    { "ROAI", @"\\roaibks001\ETArchive$" }
+};
+
+        private void OpenVisionReport(string Vision_Hostname, DateTime Vision_Datetime)
+        {
+            try
+            {
+                MessageBox.Show("OpenVisionReport received date = " + Vision_Datetime.ToString("dd-MM-yyyy HH:mm:ss"));
+
+                // 1. Check hostname prefix
+                // Determine base path based on hostname prefix
+                string basePath = null;
+
+                foreach (var kvp in VisionBasePaths)
+                {
+                    if (Vision_Hostname.StartsWith(kvp.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        basePath = kvp.Value;
+                        break;
+                    }
+                }
+
+                if (basePath == null)
+                {
+                    MessageBox.Show("Unknown Vision hostname prefix: " + Vision_Hostname);
+                    return;
+                }
+
+
+                // 3. Find machine folder
+                string[] matchingFolders = Directory.GetDirectories(basePath, Vision_Hostname + "*");
+                if (matchingFolders.Length == 0)
+                {
+                    MessageBox.Show("No folder found starting with: " + Vision_Hostname);
+                    return;
+                }
+
+                string machineFolder = matchingFolders[0];
+
+                // 4. Find validation folder
+                string validationPath = Directory.GetDirectories(machineFolder)
+                    .FirstOrDefault(d => Path.GetFileName(d)
+                        .IndexOf("validation", StringComparison.OrdinalIgnoreCase) >= 0);
+
+                if (validationPath == null)
+                {
+                    MessageBox.Show("No validation folder found in:\n" + machineFolder);
+                    return;
+                }
+
+                // 5. YEAR-MONTH FOLDER
+                string expectedYearMonth = $"{Vision_Datetime:yyyy_MM}";
+                string exactYearMonthPath = Path.Combine(validationPath, expectedYearMonth);
+
+                string bestYearMonthFolder = Directory.Exists(exactYearMonthPath)
+                    ? exactYearMonthPath
+                    : Directory.GetDirectories(validationPath)
+                        .OrderBy(f =>
+                        {
+                            string digits = Path.GetFileName(f).Replace("_", "");
+                            return int.TryParse(digits, out int val)
+                                ? Math.Abs(val - (Vision_Datetime.Year * 100 + Vision_Datetime.Month))
+                                : int.MaxValue;
+                        })
+                        .FirstOrDefault();
+
+                if (bestYearMonthFolder == null)
+                {
+                    MessageBox.Show("No valid Year_Month folder found");
+                    return;
+                }
+
+                // 6. DAY FOLDER (match last 2 chars)
+                string dayString = Vision_Datetime.Day.ToString("00");
+                string selectedDayFolder = Directory.GetDirectories(bestYearMonthFolder)
+                    .FirstOrDefault(f => Path.GetFileName(f).EndsWith(dayString));
+
+                if (selectedDayFolder == null)
+                {
+                    MessageBox.Show("The PDF report dosen't exist! \n " + dayString);
+                    return;
+                }
+
+                // 7. PDF files
+                string[] pdfFiles = Directory.GetFiles(selectedDayFolder, "*.pdf");
+                if (pdfFiles.Length == 0)
+                {
+                    MessageBox.Show("The PDF report dosen't exist! \n " + selectedDayFolder);
+                    return;
+                }
+
+                // 8. Find closest BEFORE Vision_Datetime
+                FileInfo bestMatch = pdfFiles
+                    .Select(f => new FileInfo(f))
+                    .Where(fi => fi.LastWriteTime <= Vision_Datetime)
+                    .OrderBy(fi => (Vision_Datetime - fi.LastWriteTime))
+                    .FirstOrDefault();
+
+                // fallback: closest after
+                if (bestMatch == null)
+                {
+                    bestMatch = pdfFiles
+                        .Select(f => new FileInfo(f))
+                        .OrderBy(fi => Math.Abs((fi.LastWriteTime - Vision_Datetime).Ticks))
+                        .FirstOrDefault();
+                }
+
+                if (bestMatch == null)
+                {
+                    MessageBox.Show("No suitable PDF found.");
+                    return;
+                }
+
+                //System.Diagnostics.Process.Start(bestMatch.FullName);
+                var viewer = new PdfViewerForm(bestMatch.FullName);
+                viewer.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message);
+            }
+        }
+
+        public static void WriteLogsToDatabase(
+            string serialNumber,
+            string site,
+            string username,
+            string type,
+            string additionalInfo)
+        {
+            //MessageBox.Show("DEBUG: WriteLogsToDatabase called");
+
+            try
+            {
+                string formattedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                //MessageBox.Show("DEBUG: Formatted Date = " + formattedDate);
+
+                ClsTrackingLog.InsertTrackingLog(
+                    serialNumber,
+                    site,
+                    username,
+                    DateTime.Parse(formattedDate),
+                    additionalInfo,
+                    type
+                );
+
+                //MessageBox.Show("DEBUG: InsertTrackingLog finished");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR inserting tracking log: " + ex.Message);
+            }
+        }
+
+
+
+
+
+
+
     }
 }

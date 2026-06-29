@@ -156,7 +156,7 @@
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Location = new System.Drawing.Point(18, 196);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1819, 303);
+            this.groupBox1.Size = new System.Drawing.Size(1819, 263);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Harness Process Details:";
@@ -166,7 +166,7 @@
             this.lbl_More_Details.AutoSize = true;
             this.lbl_More_Details.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_More_Details.ForeColor = System.Drawing.Color.Red;
-            this.lbl_More_Details.Location = new System.Drawing.Point(6, 285);
+            this.lbl_More_Details.Location = new System.Drawing.Point(6, 245);
             this.lbl_More_Details.Name = "lbl_More_Details";
             this.lbl_More_Details.Size = new System.Drawing.Size(345, 15);
             this.lbl_More_Details.TabIndex = 11;
@@ -180,7 +180,7 @@
             this.gridControl1.Location = new System.Drawing.Point(6, 19);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1813, 263);
+            this.gridControl1.Size = new System.Drawing.Size(1813, 223);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -323,9 +323,9 @@
             this.groupBox2.Controls.Add(this.gridControl2);
             this.groupBox2.Controls.Add(this.lblErrors);
             this.groupBox2.Controls.Add(this.dataGridView2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 505);
+            this.groupBox2.Location = new System.Drawing.Point(12, 465);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1825, 317);
+            this.groupBox2.Size = new System.Drawing.Size(1825, 357);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Harness Traceability Details:";
@@ -338,7 +338,7 @@
             this.gridControl2.Location = new System.Drawing.Point(6, 19);
             this.gridControl2.MainView = this.gridView2;
             this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(1807, 292);
+            this.gridControl2.Size = new System.Drawing.Size(1807, 332);
             this.gridControl2.TabIndex = 12;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -399,7 +399,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView2.Size = new System.Drawing.Size(1813, 292);
+            this.dataGridView2.Size = new System.Drawing.Size(1813, 332);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.Visible = false;
             // 
@@ -493,7 +493,7 @@
             // 
             this.btnExit.BackgroundImage = global::Harness_Traceability.Properties.Resources.icon_StageError;
             this.btnExit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.ImageOptions.Image")));
-            this.btnExit.Location = new System.Drawing.Point(794, 157);
+            this.btnExit.Location = new System.Drawing.Point(639, 158);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(149, 33);
             this.btnExit.TabIndex = 15;
@@ -539,11 +539,12 @@
             // btn_Contact
             // 
             this.btn_Contact.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_Contact.ImageOptions.Image")));
-            this.btn_Contact.Location = new System.Drawing.Point(639, 157);
+            this.btn_Contact.Location = new System.Drawing.Point(794, 158);
             this.btn_Contact.Name = "btn_Contact";
             this.btn_Contact.Size = new System.Drawing.Size(149, 33);
             this.btn_Contact.TabIndex = 21;
-            this.btn_Contact.Text = "Contact us ..";
+            this.btn_Contact.Text = "Vision Report";
+            this.btn_Contact.Visible = false;
             this.btn_Contact.Click += new System.EventHandler(this.btn_Contact_Click);
             // 
             // label5
@@ -559,25 +560,28 @@
             // CheckBox_Searching
             // 
             this.CheckBox_Searching.AutoSize = true;
+            this.CheckBox_Searching.BackColor = System.Drawing.Color.Transparent;
             this.CheckBox_Searching.Location = new System.Drawing.Point(707, 134);
             this.CheckBox_Searching.Name = "CheckBox_Searching";
             this.CheckBox_Searching.Size = new System.Drawing.Size(284, 17);
             this.CheckBox_Searching.TabIndex = 24;
             this.CheckBox_Searching.Text = "Get all station errors (using TT label’s equivalent ticket)\r\n";
-            this.CheckBox_Searching.UseVisualStyleBackColor = true;
+            this.CheckBox_Searching.UseVisualStyleBackColor = false;
             this.CheckBox_Searching.CheckedChanged += new System.EventHandler(this.CheckBox_Searching_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayoutStore = System.Windows.Forms.ImageLayout.Tile;
+            this.BackgroundImageStore = global::Harness_Traceability.Properties.Resources.GP_White;
             this.ClientSize = new System.Drawing.Size(1847, 834);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.CheckBox_Searching);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_Contact);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.chartControl1);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.RDBTT);
