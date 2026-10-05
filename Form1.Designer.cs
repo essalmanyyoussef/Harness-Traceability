@@ -38,8 +38,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            DevExpress.XtraCharts.Legend legend1 = new DevExpress.XtraCharts.Legend();
             DevExpress.XtraCharts.Series series1 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PieSeriesLabel pieSeriesLabel1 = new DevExpress.XtraCharts.PieSeriesLabel();
             DevExpress.XtraCharts.PieSeriesView pieSeriesView1 = new DevExpress.XtraCharts.PieSeriesView();
+            DevExpress.XtraCharts.SeriesTitle seriesTitle1 = new DevExpress.XtraCharts.SeriesTitle();
+            DevExpress.XtraCharts.PieSeriesView pieSeriesView2 = new DevExpress.XtraCharts.PieSeriesView();
             this.txtOutBarcode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,8 +58,6 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btn_Search = new System.Windows.Forms.Button();
-            this.btn_Close = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.gridControl2 = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -76,6 +78,11 @@
             this.btn_Contact = new DevExpress.XtraEditors.SimpleButton();
             this.label5 = new System.Windows.Forms.Label();
             this.CheckBox_Searching = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tileControl1 = new DevExpress.XtraEditors.TileControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -89,15 +96,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(legend1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pieSeriesLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(pieSeriesView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(seriesTitle1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pieSeriesView2)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtOutBarcode
             // 
-            this.txtOutBarcode.Location = new System.Drawing.Point(329, 131);
+            this.txtOutBarcode.Location = new System.Drawing.Point(101, 49);
             this.txtOutBarcode.Name = "txtOutBarcode";
-            this.txtOutBarcode.Size = new System.Drawing.Size(372, 20);
+            this.txtOutBarcode.Size = new System.Drawing.Size(403, 20);
             this.txtOutBarcode.TabIndex = 0;
             this.txtOutBarcode.TextChanged += new System.EventHandler(this.txtOutBarcode_TextChanged);
             // 
@@ -105,7 +118,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(237, 134);
+            this.label1.Location = new System.Drawing.Point(9, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 13);
             this.label1.TabIndex = 1;
@@ -115,7 +128,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(283, 107);
+            this.label2.Location = new System.Drawing.Point(55, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 2;
@@ -137,9 +150,9 @@
             "Alba",
             "Deva",
             "Monastir"});
-            this.comboBox1.Location = new System.Drawing.Point(329, 104);
+            this.comboBox1.Location = new System.Drawing.Point(101, 22);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(227, 21);
+            this.comboBox1.Size = new System.Drawing.Size(131, 21);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -154,12 +167,12 @@
             this.groupBox1.Controls.Add(this.lbl_Harness1);
             this.groupBox1.Controls.Add(this.lbl_Harness2);
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(18, 196);
+            this.groupBox1.Location = new System.Drawing.Point(12, 156);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1819, 263);
+            this.groupBox1.Size = new System.Drawing.Size(1825, 219);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Harness Process Details:";
+            this.groupBox1.Text = "Harness Process Test Details:";
             // 
             // lbl_More_Details
             // 
@@ -175,12 +188,11 @@
             // 
             // gridControl1
             // 
-            this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControl1.Location = new System.Drawing.Point(6, 19);
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.Location = new System.Drawing.Point(3, 16);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1813, 223);
+            this.gridControl1.Size = new System.Drawing.Size(1819, 200);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -188,16 +200,21 @@
             // 
             // gridView1
             // 
+            this.gridView1.ColumnPanelRowHeight = 16;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsSelection.ShowCheckBoxSelectorInPrintExport = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView1.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsView.RowAutoHeight = true;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView1.RowHeight = 10;
             // 
             // IMG_Searching
             // 
             this.IMG_Searching.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.IMG_Searching.BackColor = System.Drawing.Color.Transparent;
             this.IMG_Searching.Image = global::Harness_Traceability.Properties.Resources.Searching;
-            this.IMG_Searching.Location = new System.Drawing.Point(856, 46);
+            this.IMG_Searching.Location = new System.Drawing.Point(859, 46);
             this.IMG_Searching.Name = "IMG_Searching";
             this.IMG_Searching.Size = new System.Drawing.Size(106, 103);
             this.IMG_Searching.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -267,7 +284,7 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1807, 165);
+            this.dataGridView1.Size = new System.Drawing.Size(1813, 165);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.Visible = false;
             this.dataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseUp);
@@ -288,32 +305,6 @@
             this.showDetailsToolStripMenuItem.Text = "Show Details ..";
             this.showDetailsToolStripMenuItem.Click += new System.EventHandler(this.showDetailsToolStripMenuItem_Click);
             // 
-            // btn_Search
-            // 
-            this.btn_Search.Image = global::Harness_Traceability.Properties.Resources.system_search;
-            this.btn_Search.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Search.Location = new System.Drawing.Point(526, 157);
-            this.btn_Search.Name = "btn_Search";
-            this.btn_Search.Size = new System.Drawing.Size(39, 33);
-            this.btn_Search.TabIndex = 5;
-            this.btn_Search.Text = "Search";
-            this.btn_Search.UseVisualStyleBackColor = true;
-            this.btn_Search.Visible = false;
-            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
-            // 
-            // btn_Close
-            // 
-            this.btn_Close.Image = global::Harness_Traceability.Properties.Resources.icon_StageError;
-            this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Close.Location = new System.Drawing.Point(543, 157);
-            this.btn_Close.Name = "btn_Close";
-            this.btn_Close.Size = new System.Drawing.Size(61, 33);
-            this.btn_Close.TabIndex = 6;
-            this.btn_Close.Text = "Close";
-            this.btn_Close.UseVisualStyleBackColor = true;
-            this.btn_Close.Visible = false;
-            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -323,22 +314,20 @@
             this.groupBox2.Controls.Add(this.gridControl2);
             this.groupBox2.Controls.Add(this.lblErrors);
             this.groupBox2.Controls.Add(this.dataGridView2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 465);
+            this.groupBox2.Location = new System.Drawing.Point(12, 381);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1825, 357);
+            this.groupBox2.Size = new System.Drawing.Size(1825, 441);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Harness Traceability Details:";
+            this.groupBox2.Text = "Harness Errors Details:";
             // 
             // gridControl2
             // 
-            this.gridControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControl2.Location = new System.Drawing.Point(6, 19);
+            this.gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl2.Location = new System.Drawing.Point(3, 16);
             this.gridControl2.MainView = this.gridView2;
             this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(1807, 332);
+            this.gridControl2.Size = new System.Drawing.Size(1819, 422);
             this.gridControl2.TabIndex = 12;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -399,7 +388,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView2.Size = new System.Drawing.Size(1813, 332);
+            this.dataGridView2.Size = new System.Drawing.Size(1813, 416);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.Visible = false;
             // 
@@ -407,22 +396,21 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = global::Harness_Traceability.Properties.Resources.LOGO_YE;
-            this.pictureBox1.Location = new System.Drawing.Point(24, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(1323, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(211, 163);
+            this.pictureBox1.Size = new System.Drawing.Size(95, 91);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Image = global::Harness_Traceability.Properties.Resources.sews_logo;
-            this.pictureBox2.Location = new System.Drawing.Point(1671, 9);
+            this.pictureBox2.Image = global::Harness_Traceability.Properties.Resources.LOGO_YE;
+            this.pictureBox2.Location = new System.Drawing.Point(57, 12);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(164, 179);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.Size = new System.Drawing.Size(158, 103);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
             // 
@@ -430,10 +418,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Berlin Sans FB", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(347, 12);
+            this.label4.Font = new System.Drawing.Font("Berlin Sans FB", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(12, 117);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(557, 71);
+            this.label4.Size = new System.Drawing.Size(256, 32);
             this.label4.TabIndex = 9;
             this.label4.Text = "Harness Traceability";
             // 
@@ -453,7 +441,7 @@
             this.RDB_OUT.AutoSize = true;
             this.RDB_OUT.BackColor = System.Drawing.Color.Transparent;
             this.RDB_OUT.Checked = true;
-            this.RDB_OUT.Location = new System.Drawing.Point(639, 105);
+            this.RDB_OUT.Location = new System.Drawing.Point(316, 23);
             this.RDB_OUT.Name = "RDB_OUT";
             this.RDB_OUT.Size = new System.Drawing.Size(76, 17);
             this.RDB_OUT.TabIndex = 11;
@@ -466,7 +454,7 @@
             // 
             this.RDBTT.AutoSize = true;
             this.RDBTT.BackColor = System.Drawing.Color.Transparent;
-            this.RDBTT.Location = new System.Drawing.Point(732, 105);
+            this.RDBTT.Location = new System.Drawing.Point(416, 23);
             this.RDBTT.Name = "RDBTT";
             this.RDBTT.Size = new System.Drawing.Size(88, 17);
             this.RDBTT.TabIndex = 12;
@@ -482,7 +470,7 @@
             // btnSearch
             // 
             this.btnSearch.ImageOptions.Image = global::Harness_Traceability.Properties.Resources.system_search;
-            this.btnSearch.Location = new System.Drawing.Point(329, 157);
+            this.btnSearch.Location = new System.Drawing.Point(45, 100);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(149, 33);
             this.btnSearch.TabIndex = 14;
@@ -493,7 +481,7 @@
             // 
             this.btnExit.BackgroundImage = global::Harness_Traceability.Properties.Resources.icon_StageError;
             this.btnExit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.ImageOptions.Image")));
-            this.btnExit.Location = new System.Drawing.Point(639, 158);
+            this.btnExit.Location = new System.Drawing.Point(355, 101);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(149, 33);
             this.btnExit.TabIndex = 15;
@@ -503,7 +491,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 178);
+            this.label3.Location = new System.Drawing.Point(1212, 107);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 17;
@@ -515,21 +503,40 @@
             this.chartControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chartControl1.BackColor = System.Drawing.Color.Transparent;
-            this.chartControl1.Location = new System.Drawing.Point(995, 3);
+            this.chartControl1.IndicatorsPaletteName = "Chameleon";
+            this.chartControl1.Legend.Border.Visibility = DevExpress.Utils.DefaultBoolean.True;
+            this.chartControl1.Legend.DXFont = new DevExpress.Drawing.DXFont("Tahoma", 20F);
+            this.chartControl1.Legend.MarkerSize = new System.Drawing.Size(40, 40);
+            this.chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+            legend1.DXFont = new DevExpress.Drawing.DXFont("Tahoma", 20F);
+            legend1.LegendID = 0;
+            legend1.Name = "Legend 1";
+            this.chartControl1.Legends.AddRange(new DevExpress.XtraCharts.Legend[] {
+            legend1});
+            this.chartControl1.Location = new System.Drawing.Point(-32, -10);
             this.chartControl1.Name = "chartControl1";
+            pieSeriesLabel1.DXFont = new DevExpress.Drawing.DXFont("Segoe UI", 24F);
+            series1.Label = pieSeriesLabel1;
+            series1.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
             series1.Name = "Series 1";
             series1.SeriesID = 0;
+            seriesTitle1.TitleID = 0;
+            pieSeriesView1.Titles.AddRange(new DevExpress.XtraCharts.SeriesTitle[] {
+            seriesTitle1});
             series1.View = pieSeriesView1;
             this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
         series1};
-            this.chartControl1.Size = new System.Drawing.Size(667, 194);
+            this.chartControl1.SeriesTemplate.View = pieSeriesView2;
+            this.chartControl1.Size = new System.Drawing.Size(1879, 641);
             this.chartControl1.TabIndex = 18;
             this.chartControl1.Visible = false;
+            this.chartControl1.Click += new System.EventHandler(this.chartControl1_Click);
             // 
             // btnExport
             // 
             this.btnExport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.ImageOptions.Image")));
-            this.btnExport.Location = new System.Drawing.Point(484, 157);
+            this.btnExport.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
+            this.btnExport.Location = new System.Drawing.Point(200, 101);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(149, 33);
             this.btnExport.TabIndex = 20;
@@ -539,7 +546,7 @@
             // btn_Contact
             // 
             this.btn_Contact.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_Contact.ImageOptions.Image")));
-            this.btn_Contact.Location = new System.Drawing.Point(794, 158);
+            this.btn_Contact.Location = new System.Drawing.Point(355, 100);
             this.btn_Contact.Name = "btn_Contact";
             this.btn_Contact.Size = new System.Drawing.Size(149, 33);
             this.btn_Contact.TabIndex = 21;
@@ -551,7 +558,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(570, 107);
+            this.label5.Location = new System.Drawing.Point(238, 25);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 13);
             this.label5.TabIndex = 22;
@@ -561,43 +568,108 @@
             // 
             this.CheckBox_Searching.AutoSize = true;
             this.CheckBox_Searching.BackColor = System.Drawing.Color.Transparent;
-            this.CheckBox_Searching.Location = new System.Drawing.Point(707, 134);
+            this.CheckBox_Searching.Location = new System.Drawing.Point(101, 75);
             this.CheckBox_Searching.Name = "CheckBox_Searching";
-            this.CheckBox_Searching.Size = new System.Drawing.Size(284, 17);
+            this.CheckBox_Searching.Size = new System.Drawing.Size(218, 17);
             this.CheckBox_Searching.TabIndex = 24;
-            this.CheckBox_Searching.Text = "Get all station errors (using TT label’s equivalent ticket)\r\n";
+            this.CheckBox_Searching.Text = "Include All Station Errors( Search by TT )\r\n";
             this.CheckBox_Searching.UseVisualStyleBackColor = false;
             this.CheckBox_Searching.CheckedChanged += new System.EventHandler(this.CheckBox_Searching_CheckedChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnExit);
+            this.groupBox3.Controls.Add(this.btnSearch);
+            this.groupBox3.Controls.Add(this.txtOutBarcode);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.CheckBox_Searching);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.comboBox1);
+            this.groupBox3.Controls.Add(this.RDB_OUT);
+            this.groupBox3.Controls.Add(this.RDBTT);
+            this.groupBox3.Controls.Add(this.btnExport);
+            this.groupBox3.Controls.Add(this.btn_Contact);
+            this.groupBox3.Location = new System.Drawing.Point(274, 16);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(524, 145);
+            this.groupBox3.TabIndex = 25;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Search Traceability";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.tileControl1);
+            this.groupBox4.Controls.Add(this.labelControl1);
+            this.groupBox4.Controls.Add(this.labelControl2);
+            this.groupBox4.Location = new System.Drawing.Point(805, 17);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(1032, 145);
+            this.groupBox4.TabIndex = 26;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Harness Information / Error Symmary";
+            // 
+            // tileControl1
+            // 
+            this.tileControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tileControl1.BackColor = System.Drawing.Color.Transparent;
+            this.tileControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tileControl1.ItemContentAnimation = DevExpress.XtraEditors.TileItemContentAnimationType.RandomSegmentedFade;
+            this.tileControl1.Location = new System.Drawing.Point(247, 38);
+            this.tileControl1.Name = "tileControl1";
+            this.tileControl1.Size = new System.Drawing.Size(779, 101);
+            this.tileControl1.TabIndex = 3;
+            this.tileControl1.Text = "tileControl1";
+            this.tileControl1.Visible = false;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.Gray;
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Appearance.Options.UseForeColor = true;
+            this.labelControl1.Location = new System.Drawing.Point(12, 19);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(98, 105);
+            this.labelControl1.TabIndex = 4;
+            this.labelControl1.Text = "Harness S/N :\r\nCUSTOMER  :  \r\nPROJECT       :  \r\nFAMILY         :  \r\nLINE        " +
+    "       :  ";
+            this.labelControl1.Visible = false;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl2.Appearance.ForeColor = System.Drawing.Color.Black;
+            this.labelControl2.Appearance.Options.UseBackColor = true;
+            this.labelControl2.Appearance.Options.UseFont = true;
+            this.labelControl2.Appearance.Options.UseForeColor = true;
+            this.labelControl2.Location = new System.Drawing.Point(117, 20);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(446, 84);
+            this.labelControl2.TabIndex = 5;
+            this.labelControl2.Text = "CUSTOMER  :  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\nPROJECT      :  \r\nFAMILY        " +
+    ":  \r\nLINE             :  ";
+            this.labelControl2.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImageLayoutStore = System.Windows.Forms.ImageLayout.Tile;
-            this.BackgroundImageStore = global::Harness_Traceability.Properties.Resources.GP_White;
             this.ClientSize = new System.Drawing.Size(1847, 834);
-            this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.CheckBox_Searching);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.btn_Contact);
-            this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.chartControl1);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.RDBTT);
-            this.Controls.Add(this.RDB_OUT);
             this.Controls.Add(this.Export);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btn_Close);
-            this.Controls.Add(this.btn_Search);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtOutBarcode);
+            this.Controls.Add(this.chartControl1);
             this.IconOptions.Image = ((System.Drawing.Image)(resources.GetObject("Form1.IconOptions.Image")));
             this.Name = "Form1";
             this.Text = "SEWS-E / Central Test Engineering - Harness Traceability Software V1.0";
@@ -618,9 +690,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(legend1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pieSeriesLabel1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(seriesTitle1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(pieSeriesView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pieSeriesView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -633,8 +713,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btn_Search;
-        private System.Windows.Forms.Button btn_Close;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label lbl_Harness2;
@@ -664,6 +742,11 @@
         private DevExpress.XtraEditors.SimpleButton btn_Contact;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox CheckBox_Searching;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private DevExpress.XtraEditors.TileControl tileControl1;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
     }
 }
 

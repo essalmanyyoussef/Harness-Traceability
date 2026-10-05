@@ -73,6 +73,16 @@ namespace Harness_Traceability.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Defect_Harness {
+            get {
+                object obj = ResourceManager.GetObject("Defect Harness", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Electric_Cable_PNG_Transparent_HD_Photo {
             get {
                 object obj = ResourceManager.GetObject("Electric-Cable-PNG-Transparent-HD-Photo", resourceCulture);
@@ -213,6 +223,16 @@ namespace Harness_Traceability.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Harness_Statistics {
+            get {
+                object obj = ResourceManager.GetObject("Harness Statistics", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HOME {
             get {
                 object obj = ResourceManager.GetObject("HOME", resourceCulture);
@@ -283,6 +303,16 @@ namespace Harness_Traceability.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PC_HOSTNAME {
+            get {
+                object obj = ResourceManager.GetObject("PC HOSTNAME", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pdf {
             get {
                 object obj = ResourceManager.GetObject("pdf", resourceCulture);
@@ -306,6 +336,16 @@ namespace Harness_Traceability.Properties {
         internal static System.Drawing.Bitmap sews_logo {
             get {
                 object obj = ResourceManager.GetObject("sews logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Statistics {
+            get {
+                object obj = ResourceManager.GetObject("Statistics", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

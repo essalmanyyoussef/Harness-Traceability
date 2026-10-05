@@ -28,5 +28,29 @@ namespace Harness_Traceability
 
             return ClsData.ExecuteProcedure("sp_InsertTrackingLog", param, true);
         }
+
+
+        public static int Insert_Statistics_TrackingLog(
+            string Host_Name,
+            string username,
+            DateTime start_dateTime,
+            DateTime end_datetime,
+            string additionalInfo)
+        {
+            Dictionary<string, object> param =
+                new Dictionary<string, object>();
+
+            param.Add("@Hostname", Host_Name);
+            param.Add("@Username", username);
+            param.Add("@Start_DateTime", start_dateTime);
+            param.Add("@End_DateTime", end_datetime);
+            param.Add("@AdditionalInfo", additionalInfo);
+
+            return ClsData.ExecuteProcedure(
+                "sp_Insert_Statistics_TrackingLog",
+                param,
+                false);
+        }
+
     }
 }

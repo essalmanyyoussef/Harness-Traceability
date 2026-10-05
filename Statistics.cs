@@ -35,6 +35,7 @@ namespace Harness_Traceability
             chartControl2.Visible = false;
             lblLoading.Visible = false;
             PB_Loading.Visible = false;
+            
 
         }
         string Error_Type;
@@ -43,7 +44,7 @@ namespace Harness_Traceability
         {
             // Show loading UI
 
-            string hostname = txtHostname.Text.Trim();
+            string hostname = txtHost.Text.Trim().ToUpper();
 
             if (hostname.Length < 4)
             {
@@ -126,29 +127,42 @@ namespace Harness_Traceability
                 DataTable data = await Task.Run(() =>
                 {
                     // Build AdditionalInfo
-                    string cleanDate1 = Date1.Text.Split(' ')[0];
-                    string cleanDate2 = Date2.Text.Split(' ')[0];
+                    DateTime startDateTime;
+                    DateTime endDateTime;
 
-                    string dateTime1 = $"{cleanDate1}T{Time1.Text}";
-                    string dateTime2 = $"{cleanDate2}T{Time2.Text}";
+                    if (!DateTime.TryParse(Date1.Text + " " + Time1.Text, out startDateTime))
+                    {
+                        throw new Exception("Invalid Start Date");
+                    }
 
-                    string additionalInfo =txtHostname.Text +$"- {dateTime1} - {dateTime2}";
+                    if (!DateTime.TryParse(Date2.Text + " " + Time2.Text, out endDateTime))
+                    {
+                        throw new Exception("Invalid End Date");
+                    }
+
+                    string additionalInfo = "DEFECTED HARNESSES : " + txtHost.Text.Trim().ToUpper();
+
+                    WriteStatisticsLogToDatabase(
+                        Form2.User_name,
+                        startDateTime,
+                        endDateTime,
+                        additionalInfo);
 
 
                     // Call the logging method
-                    Form1.WriteLogsToDatabase(
-                        serialNumber: "",
-                        site: "",
-                        username: Form2.User_name,
-                        type: "Def. Harness",
-                        additionalInfo: additionalInfo
-                    );
-
+                    //Form1.WriteLogsToDatabase(
+                    //    serialNumber: "",
+                    //    site: "",
+                    //    username: Form2.User_name,
+                    //    type: "Def. Harness",
+                    //    additionalInfo: additionalInfo
+                    //);
+                    //WriteStatisticsLogToDatabase(username: Form2.User_name, dateTime1, dateTime2, additionalInfo);
 
                     //ClsData.Connect("MOASMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
 
                     DataTable dt = ClsOrders.Harness_SN(
-                        txtHostname.Text,
+                        txtHost.Text,
                         Date1.Text + " " + Time1.Text,
                         Date2.Text + " " + Time2.Text
                     );
@@ -170,7 +184,7 @@ namespace Harness_Traceability
 
                 // Update UI after background work
                 gridControl1.DataSource = data;
-                richTextBox1.Text = $"{txtHostname.Text}\n{Date1.Text} {Time1.Text}\n{Date2.Text} {Time2.Text}\n{Error_Type}";
+                richTextBox1.Text = $"{txtHost.Text}\n{Date1.Text} {Time1.Text}\n{Date2.Text} {Time2.Text}\n{Error_Type}";
 
                 LoadReferenceChart();
                 UpdatePieChart();
@@ -199,7 +213,7 @@ namespace Harness_Traceability
 
                 // Set the ProgressPanel to be on top and show it
                 progressPanel1.BringToFront();
-                txtHostname.Text = "select Reference, BC AS [Travel Ticket Label], Test AS Station, \r\n       IN_Barcode_1 AS [2nd Label], IN_Barcode_2 AS [3rd Travel Ticket Label], \r\n       IN_Barcode_3 AS [4th Travel Ticket Label], OUT_Barcode AS [Final Label], \r\n       DateEnd AS [Test Date], Rework AS Reworked, Rework_ID AS [Rework ID] , Hostname from correlations_trial whre Hostname = 'MOKEETS001' AND[DateEnd] >= " + Date1.Text + " " + Time1.Text + "AND[DateEnd] <" + Date2.Text + " " + Time2.Text;
+                txtHost.Text = "select Reference, BC AS [Travel Ticket Label], Test AS Station, \r\n       IN_Barcode_1 AS [2nd Label], IN_Barcode_2 AS [3rd Travel Ticket Label], \r\n       IN_Barcode_3 AS [4th Travel Ticket Label], OUT_Barcode AS [Final Label], \r\n       DateEnd AS [Test Date], Rework AS Reworked, Rework_ID AS [Rework ID] , Hostname from correlations_trial whre Hostname = 'MOKEETS001' AND[DateEnd] >= " + Date1.Text + " " + Time1.Text + "AND[DateEnd] <" + Date2.Text + " " + Time2.Text;
 
                 // Perform the data loading and chart update operations asynchronously
                 await Task.Run(() =>
@@ -258,26 +272,35 @@ namespace Harness_Traceability
         private void LoadReferenceChart()
         {
             chartControl1.ClearSelection();
+
             GridView view = gridControl1.MainView as GridView;
+            if (view == null) return;
 
             // Extract data from GridControl into a DataTable
             DataTable dt = new DataTable();
-            dt.Columns.Add("Hostname");
-            dt.Columns.Add("Reference");
-            dt.Columns.Add("TT Label");
-            dt.Columns.Add("HarnessSN");
+            dt.Columns.Add("Hostname", typeof(string));
+            dt.Columns.Add("Reference", typeof(string));
+            dt.Columns.Add("TT Label", typeof(string));
+            dt.Columns.Add("HarnessSN", typeof(string));
 
             for (int i = 0; i < view.RowCount; i++)
             {
                 DataRow row = dt.NewRow();
-                row["Hostname"] = view.GetRowCellValue(i, "Hostname");
-                row["Reference"] = view.GetRowCellValue(i, "Reference");
-                row["TT Label"] = view.GetRowCellValue(i, "TT Label");
-                row["HarnessSN"] = view.GetRowCellValue(i, "Harness S/N");
+
+                row["Hostname"] = view.GetRowCellValue(i, "Hostname")?.ToString() ?? "";
+
+                string reference = view.GetRowCellValue(i, "Reference")?.ToString()?.Trim() ?? "";
+                row["Reference"] = string.IsNullOrWhiteSpace(reference)
+                    ? "Empty_Ref"
+                    : reference;
+
+                row["TT Label"] = view.GetRowCellValue(i, "TT Label")?.ToString() ?? "";
+                row["HarnessSN"] = view.GetRowCellValue(i, "Harness S/N")?.ToString() ?? "";
+
                 dt.Rows.Add(row);
             }
 
-            // Group by Reference and count
+            // Group by Reference and count occurrences
             var grouped = dt.AsEnumerable()
                             .GroupBy(r => r.Field<string>("Reference"))
                             .Select(g => new
@@ -285,24 +308,37 @@ namespace Harness_Traceability
                                 Reference = g.Key,
                                 Count = g.Count()
                             })
+                            .OrderByDescending(x => x.Count)
                             .ToList();
 
-            // Bind to ChartControl
+            // Rebuild chart
             chartControl1.Series.Clear();
+
             Series series = new Series("Reference Count", ViewType.Bar);
 
             foreach (var item in grouped)
             {
-                series.Points.Add(new SeriesPoint(item.Reference, item.Count));
+                series.Points.Add(
+                    new SeriesPoint(
+                        item.Reference ?? "Empty_Ref",
+                        Convert.ToDouble(item.Count))
+                );
             }
 
             chartControl1.Series.Add(series);
 
-            // Optional: make it look nicer
-            ((BarSeriesView)series.View).ColorEach = true;
+            // Appearance
+            if (series.View is BarSeriesView barView)
+            {
+                barView.ColorEach = true;
+            }
+
             chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+
+            // Optional labels on bars
+            series.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
         }
-        private void GridView1_ColumnFilterChanged(object sender, EventArgs e) 
+        private void GridView1_ColumnFilterChanged(object sender, EventArgs e)
         {
             LoadReferenceChart();
             UpdatePieChart();
@@ -427,6 +463,211 @@ namespace Harness_Traceability
             {
                 MessageBox.Show("Export failed: " + ex.Message);
             }
+        }
+
+        public static void WriteStatisticsLogToDatabase(
+            string username,
+            DateTime startDateTime,
+            DateTime endDateTime,
+            string additionalInfo)
+        {
+            try
+            {
+                string hostName = Environment.MachineName;
+
+
+
+                int result =
+                    ClsTrackingLog.Insert_Statistics_TrackingLog(
+                        hostName,
+                        username,
+                        startDateTime,
+                        endDateTime,
+                        additionalInfo);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "ERROR inserting statistics log:\n" + ex.ToString());
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void simpleButton5_Click(object sender, EventArgs e)
+        {
+            new frmHostname().ShowDialog();
+        }
+
+        private async void simpleButton2_Click(object sender, EventArgs e)
+        {
+
+            // Show loading UI
+
+            string hostname = txtHost.Text.Trim().ToUpper();
+
+            if (hostname.Length < 4)
+            {
+                MessageBox.Show("Hostname is too short. Please enter a valid Hostname.");
+                return;
+            }
+
+            string prefix = hostname.Substring(0, 4).ToUpper();
+            Dictionary<string, string> serverMap = new Dictionary<string, string>
+{
+                { "MOAS", "MOASMLS001" },
+                { "MOFZ", "MOFZMLS001" },
+                { "MOKE", "MOKEMLS001" },
+                { "MOAA", "MOAAMLS001" },
+                { "MOSK", "MOSKMLS001" },
+                { "EGPS", "EGPSMLS001" },
+                { "EGTR", "EGTRMLS001" },
+                { "EGSO", "EGSOMLS001" },
+                { "ROAI", "ROAIMLS001" },
+                { "RODV", "RODVMLS001" },
+                { "TNMO", "TNMOMLS001" }
+            };
+
+            string Server;
+
+            if (serverMap.TryGetValue(prefix, out Server))
+            {
+                // Valid hostname → connect
+                ClsData.Connect(Server, "wtr", "wtrviewuser", "alarm-S7D46S");
+            }
+            else
+            {
+                // Invalid hostname → show error
+                MessageBox.Show("This Hostname doesn't exist, please check and enter the correct Hostname.");
+                return;
+            }
+
+            DateTime startDate;
+            DateTime endDate;
+
+            bool ok1 = DateTime.TryParse(Date1.Text + " " + Time1.Text, out startDate);
+            bool ok2 = DateTime.TryParse(Date2.Text + " " + Time2.Text, out endDate);
+
+            if (!ok1 || !ok2)
+            {
+                MessageBox.Show("Invalid date or time format.");
+                return;
+            }
+
+            // Check order
+            if (startDate >= endDate)
+            {
+                MessageBox.Show("Start date must be earlier than end date.");
+                return;
+            }
+
+            // Check 30‑day range
+            if ((endDate - startDate).TotalDays > 30)
+            {
+                MessageBox.Show("Date range cannot exceed 30 days.");
+                return;
+            }
+
+
+            PB_Loading.Visible = true;
+            lblLoading.Visible = true;
+            gridControl1.Visible = false;
+            chartControl1.Visible = false;
+            chartControl2.Visible = false;
+
+            PB_Loading.BringToFront();
+
+            Error_Type = "";
+
+
+
+            try
+            {
+                // Run heavy work on background thread
+                DataTable data = await Task.Run(() =>
+                {
+                    // Build AdditionalInfo
+                    DateTime startDateTime;
+                    DateTime endDateTime;
+
+                    if (!DateTime.TryParse(Date1.Text + " " + Time1.Text, out startDateTime))
+                    {
+                        throw new Exception("Invalid Start Date");
+                    }
+
+                    if (!DateTime.TryParse(Date2.Text + " " + Time2.Text, out endDateTime))
+                    {
+                        throw new Exception("Invalid End Date");
+                    }
+
+                    string additionalInfo = "DEFECTED HARNESSES : " + txtHost.Text.Trim().ToUpper();
+
+                    WriteStatisticsLogToDatabase(
+                        Form2.User_name,
+                        startDateTime,
+                        endDateTime,
+                        additionalInfo);
+
+
+                    // Call the logging method
+                    //Form1.WriteLogsToDatabase(
+                    //    serialNumber: "",
+                    //    site: "",
+                    //    username: Form2.User_name,
+                    //    type: "Def. Harness",
+                    //    additionalInfo: additionalInfo
+                    //);
+                    //WriteStatisticsLogToDatabase(username: Form2.User_name, dateTime1, dateTime2, additionalInfo);
+
+                    //ClsData.Connect("MOASMLS001", "wtr", "wtrviewuser", "alarm-S7D46S");
+
+                    DataTable dt = ClsOrders.Harness_SN(
+                        txtHost.Text,
+                        Date1.Text + " " + Time1.Text,
+                        Date2.Text + " " + Time2.Text
+                    );
+
+                    if (!dt.Columns.Contains("Error Description"))
+                        dt.Columns.Add("Error Description", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string code = row["Error Code"].ToString().Trim();
+                        if (errorDescriptions.ContainsKey(code))
+                            row["Error Description"] = errorDescriptions[code];
+                        else
+                            row["Error Description"] = "Unknown";
+                    }
+
+                    return dt;
+                });
+
+                // Update UI after background work
+                gridControl1.DataSource = data;
+                richTextBox1.Text = $"{txtHost.Text}\n{Date1.Text} {Time1.Text}\n{Date2.Text} {Time2.Text}\n{Error_Type}";
+
+                LoadReferenceChart();
+                UpdatePieChart();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                // Hide loading UI
+                PB_Loading.Visible = false;
+                lblLoading.Visible = false;
+                gridControl1.Visible = true;
+                chartControl1.Visible = true;
+                chartControl2.Visible = true;
+            }
+
+
         }
     }
 

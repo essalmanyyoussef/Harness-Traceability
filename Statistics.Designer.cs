@@ -34,27 +34,30 @@
             DevExpress.XtraCharts.SideBySideStackedBar3DSeriesView sideBySideStackedBar3DSeriesView1 = new DevExpress.XtraCharts.SideBySideStackedBar3DSeriesView();
             DevExpress.XtraCharts.SideBySideBar3DSeriesView sideBySideBar3DSeriesView1 = new DevExpress.XtraCharts.SideBySideBar3DSeriesView();
             DevExpress.XtraCharts.ChartTitle chartTitle1 = new DevExpress.XtraCharts.ChartTitle();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsUIButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Statistics));
             DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
             DevExpress.XtraCharts.PieSeriesView pieSeriesView1 = new DevExpress.XtraCharts.PieSeriesView();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Statistics));
             this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtHost = new DevExpress.XtraEditors.TextEdit();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.txtHostname = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.Time2 = new DevExpress.XtraEditors.TimeEdit();
             this.Time1 = new DevExpress.XtraEditors.TimeEdit();
-            this.windowsUIButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.Date2 = new DevExpress.XtraEditors.DateTimeOffsetEdit();
             this.Date1 = new DevExpress.XtraEditors.DateTimeOffsetEdit();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.txtHostname = new System.Windows.Forms.TextBox();
             this.chartControl2 = new DevExpress.XtraCharts.ChartControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -63,7 +66,6 @@
             this.barAndDockingController1 = new DevExpress.XtraBars.BarAndDockingController(this.components);
             this.PB_Loading = new System.Windows.Forms.PictureBox();
             this.lblLoading = new System.Windows.Forms.Label();
-            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(xyDiagram3D1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
@@ -71,6 +73,8 @@
             ((System.ComponentModel.ISupportInitialize)(sideBySideBar3DSeriesView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtHost.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Time2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Time1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date2.Properties)).BeginInit();
@@ -117,38 +121,127 @@
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.label4);
+            this.groupControl1.Controls.Add(this.pictureBox2);
+            this.groupControl1.Controls.Add(this.label2);
+            this.groupControl1.Controls.Add(this.label1);
+            this.groupControl1.Controls.Add(this.txtHost);
+            this.groupControl1.Controls.Add(this.simpleButton5);
+            this.groupControl1.Controls.Add(this.simpleButton4);
+            this.groupControl1.Controls.Add(this.simpleButton3);
+            this.groupControl1.Controls.Add(this.simpleButton2);
             this.groupControl1.Controls.Add(this.btnExport);
-            this.groupControl1.Controls.Add(this.simpleButton1);
             this.groupControl1.Controls.Add(this.richTextBox1);
-            this.groupControl1.Controls.Add(this.txtHostname);
             this.groupControl1.Controls.Add(this.label7);
             this.groupControl1.Controls.Add(this.Time2);
             this.groupControl1.Controls.Add(this.Time1);
-            this.groupControl1.Controls.Add(this.windowsUIButtonPanel1);
             this.groupControl1.Controls.Add(this.label6);
             this.groupControl1.Controls.Add(this.label5);
             this.groupControl1.Controls.Add(this.Date2);
             this.groupControl1.Controls.Add(this.Date1);
-            this.groupControl1.Controls.Add(this.label4);
-            this.groupControl1.Controls.Add(this.label3);
-            this.groupControl1.Controls.Add(this.label2);
-            this.groupControl1.Controls.Add(this.label1);
             this.groupControl1.Location = new System.Drawing.Point(12, 12);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(1020, 185);
+            this.groupControl1.Size = new System.Drawing.Size(1020, 200);
             this.groupControl1.TabIndex = 2;
             this.groupControl1.Text = "User selection";
             // 
-            // simpleButton1
+            // label4
             // 
-            this.simpleButton1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.simpleButton1.Location = new System.Drawing.Point(345, 35);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.simpleButton1.Size = new System.Drawing.Size(192, 35);
-            this.simpleButton1.TabIndex = 23;
-            this.simpleButton1.Text = "Get Station Hostname";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Berlin Sans FB", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 154);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(252, 32);
+            this.label4.TabIndex = 35;
+            this.label4.Text = "Defective Harnesses";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = global::Harness_Traceability.Properties.Resources.Defect_Harness;
+            this.pictureBox2.Location = new System.Drawing.Point(11, 23);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(242, 128);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 34;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(590, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 20);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "Time :";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(590, 75);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 20);
+            this.label1.TabIndex = 32;
+            this.label1.Text = "Time :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // txtHost
+            // 
+            this.txtHost.Location = new System.Drawing.Point(389, 24);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(198, 36);
+            this.txtHost.TabIndex = 0;
+            // 
+            // simpleButton5
+            // 
+            this.simpleButton5.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton5.ImageOptions.Image")));
+            this.simpleButton5.Location = new System.Drawing.Point(593, 25);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(173, 33);
+            this.simpleButton5.TabIndex = 8;
+            this.simpleButton5.Text = "Hostname Search";
+            this.simpleButton5.Click += new System.EventHandler(this.simpleButton5_Click);
+            // 
+            // simpleButton4
+            // 
+            this.simpleButton4.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton4.ImageOptions.Image")));
+            this.simpleButton4.Location = new System.Drawing.Point(617, 154);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(149, 33);
+            this.simpleButton4.TabIndex = 7;
+            this.simpleButton4.Text = "Close";
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
+            this.simpleButton3.Location = new System.Drawing.Point(460, 154);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(149, 33);
+            this.simpleButton3.TabIndex = 6;
+            this.simpleButton3.Text = "Export";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
+            this.simpleButton2.Location = new System.Drawing.Point(303, 154);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(149, 33);
+            this.simpleButton2.TabIndex = 5;
+            this.simpleButton2.Text = "Search";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.ImageOptions.Image")));
+            this.btnExport.Location = new System.Drawing.Point(12, 487);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(981, 42);
+            this.btnExport.TabIndex = 26;
+            this.btnExport.Text = "Export to Excel ";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // richTextBox1
             // 
@@ -158,100 +251,78 @@
             this.richTextBox1.TabIndex = 20;
             this.richTextBox1.Text = "";
             // 
-            // txtHostname
-            // 
-            this.txtHostname.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHostname.Location = new System.Drawing.Point(142, 35);
-            this.txtHostname.Name = "txtHostname";
-            this.txtHostname.Size = new System.Drawing.Size(194, 29);
-            this.txtHostname.TabIndex = 0;
-            // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(67, 46);
+            this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(300, 22);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 13);
+            this.label7.Size = new System.Drawing.Size(83, 38);
             this.label7.TabIndex = 15;
             this.label7.Text = "Hostname :";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Time2
             // 
             this.Time2.EditValue = new System.DateTime(2024, 7, 29, 0, 0, 0, 0);
-            this.Time2.Location = new System.Drawing.Point(384, 124);
+            this.Time2.Location = new System.Drawing.Point(649, 110);
             this.Time2.Name = "Time2";
             this.Time2.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Time2.Properties.Appearance.Options.UseFont = true;
             this.Time2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Time2.Size = new System.Drawing.Size(152, 38);
+            this.Time2.Size = new System.Drawing.Size(117, 38);
             this.Time2.TabIndex = 4;
             // 
             // Time1
             // 
             this.Time1.EditValue = new System.DateTime(2024, 7, 29, 0, 0, 0, 0);
-            this.Time1.Location = new System.Drawing.Point(384, 76);
+            this.Time1.Location = new System.Drawing.Point(649, 66);
             this.Time1.Name = "Time1";
             this.Time1.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Time1.Properties.Appearance.Options.UseFont = true;
             this.Time1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Time1.Size = new System.Drawing.Size(152, 38);
+            this.Time1.Size = new System.Drawing.Size(117, 38);
             this.Time1.TabIndex = 2;
-            // 
-            // windowsUIButtonPanel1
-            // 
-            this.windowsUIButtonPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            windowsUIButtonImageOptions1.Image = global::Harness_Traceability.Properties.Resources.system_search;
-            this.windowsUIButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] {
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton("Search", true, windowsUIButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false),
-            new DevExpress.XtraBars.Docking2010.WindowsUIButton()});
-            this.windowsUIButtonPanel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.windowsUIButtonPanel1.Location = new System.Drawing.Point(558, 86);
-            this.windowsUIButtonPanel1.Name = "windowsUIButtonPanel1";
-            this.windowsUIButtonPanel1.Size = new System.Drawing.Size(79, 78);
-            this.windowsUIButtonPanel1.TabIndex = 5;
-            this.windowsUIButtonPanel1.Text = "windowsUIButtonPanel1";
-            this.windowsUIButtonPanel1.Click += new System.EventHandler(this.windowsUIButtonPanel1_Click);
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(67, 135);
+            this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(345, 119);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(27, 13);
+            this.label6.Size = new System.Drawing.Size(38, 20);
             this.label6.TabIndex = 9;
             this.label6.Text = "To :";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(52, 94);
+            this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(306, 73);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.Size = new System.Drawing.Size(77, 24);
             this.label5.TabIndex = 8;
             this.label5.Text = "From :";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Date2
             // 
             this.Date2.EditValue = null;
-            this.Date2.Location = new System.Drawing.Point(142, 124);
+            this.Date2.Location = new System.Drawing.Point(389, 110);
             this.Date2.Name = "Date2";
             this.Date2.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Date2.Properties.Appearance.Options.UseFont = true;
             this.Date2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.Date2.Properties.MaskSettings.Set("mask", "yyyy-MM-dd");
-            this.Date2.Size = new System.Drawing.Size(194, 38);
+            this.Date2.Size = new System.Drawing.Size(198, 38);
             this.Date2.TabIndex = 3;
             this.Date2.EditValueChanged += new System.EventHandler(this.Date2_EditValueChanged);
             // 
             // Date1
             // 
             this.Date1.EditValue = null;
-            this.Date1.Location = new System.Drawing.Point(142, 78);
+            this.Date1.Location = new System.Drawing.Point(389, 66);
             this.Date1.Name = "Date1";
             this.Date1.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Date1.Properties.Appearance.Options.UseFont = true;
@@ -261,46 +332,17 @@
             this.Date1.Properties.MaskSettings.Set("useAdvancingCaret", true);
             this.Date1.Properties.MaskSettings.Set("culture", "en-GB");
             this.Date1.Properties.UseMaskAsDisplayFormat = true;
-            this.Date1.Size = new System.Drawing.Size(194, 38);
+            this.Date1.Size = new System.Drawing.Size(198, 38);
             this.Date1.TabIndex = 1;
             this.Date1.EditValueChanged += new System.EventHandler(this.Date1_EditValueChanged);
             // 
-            // label4
+            // txtHostname
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(342, 140);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Time :";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(100, 135);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Date :";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(342, 92);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Time :";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(100, 94);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(36, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Date :";
+            this.txtHostname.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtHostname.Location = new System.Drawing.Point(103, 12);
+            this.txtHostname.Name = "txtHostname";
+            this.txtHostname.Size = new System.Drawing.Size(907, 29);
+            this.txtHostname.TabIndex = 0;
             // 
             // chartControl2
             // 
@@ -323,11 +365,11 @@
             // 
             this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.gridControl1.Location = new System.Drawing.Point(12, 203);
+            this.gridControl1.Location = new System.Drawing.Point(12, 218);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1020, 664);
-            this.gridControl1.TabIndex = 15;
+            this.gridControl1.Size = new System.Drawing.Size(1020, 649);
+            this.gridControl1.TabIndex = 9;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
@@ -362,7 +404,7 @@
             // PB_Loading
             // 
             this.PB_Loading.Image = global::Harness_Traceability.Properties.Resources.Loading;
-            this.PB_Loading.Location = new System.Drawing.Point(289, 247);
+            this.PB_Loading.Location = new System.Drawing.Point(441, 244);
             this.PB_Loading.Name = "PB_Loading";
             this.PB_Loading.Size = new System.Drawing.Size(148, 143);
             this.PB_Loading.TabIndex = 22;
@@ -372,21 +414,11 @@
             // 
             this.lblLoading.AutoSize = true;
             this.lblLoading.Font = new System.Drawing.Font("Ubuntu", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoading.Location = new System.Drawing.Point(295, 393);
+            this.lblLoading.Location = new System.Drawing.Point(454, 390);
             this.lblLoading.Name = "lblLoading";
             this.lblLoading.Size = new System.Drawing.Size(135, 24);
             this.lblLoading.TabIndex = 23;
             this.lblLoading.Text = "Loading data ..";
-            // 
-            // btnExport
-            // 
-            this.btnExport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.ImageOptions.Image")));
-            this.btnExport.Location = new System.Drawing.Point(643, 87);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(159, 77);
-            this.btnExport.TabIndex = 26;
-            this.btnExport.Text = "Export to Excel ";
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // Statistics
             // 
@@ -411,6 +443,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtHost.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Time2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Time1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date2.Properties)).EndInit();
@@ -432,13 +466,8 @@
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraEditors.DateTimeOffsetEdit Date2;
         private DevExpress.XtraEditors.DateTimeOffsetEdit Date1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsUIButtonPanel1;
         private DevExpress.XtraEditors.TimeEdit Time2;
         private DevExpress.XtraEditors.TimeEdit Time1;
         private DevExpress.XtraWaitForm.ProgressPanel progressPanel1;
@@ -452,7 +481,15 @@
         private DevExpress.XtraCharts.ChartControl chartControl2;
         private System.Windows.Forms.PictureBox PB_Loading;
         private System.Windows.Forms.Label lblLoading;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraEditors.SimpleButton btnExport;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton simpleButton4;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton5;
+        private DevExpress.XtraEditors.TextEdit txtHost;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label4;
     }
 }

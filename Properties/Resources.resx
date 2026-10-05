@@ -118,85 +118,97 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_White" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_White.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HOME1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HOME1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="info_189664" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\info_189664.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HOME" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOME.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Error_Dialog1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Error_Dialog1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GP_Purple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Purple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="4620329" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4620329.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icon_StageError" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_StageError.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HOME1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOME1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GP_CC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GP_CC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icon_StageSuccess" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_StageSuccess.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Error_Dialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Error_Dialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\User.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LOGO YE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LOGO YE.jfif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_Green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_Turquise - Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Turquise - Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_LighterBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_LighterBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sews logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sews logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="4620329" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\4620329.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_Gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Searching" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Searching.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_Light_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Light_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GP_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HOME" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HOME.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="system-search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\system-search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GP_Turquise" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GP_Turquise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GP_Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GP_Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GP_White" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_White.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sews logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sews logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_StageError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_StageError.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\User.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Electric-Cable-PNG-Transparent-HD-Photo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Electric-Cable-PNG-Transparent-HD-Photo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Defect Harness" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Defect Harness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Error_Dialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error_Dialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Turquise - Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Turquise - Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LOGO YE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LOGO YE.jfif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_StageSuccess" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_StageSuccess.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Light_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Light_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Harness Statistics" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Harness Statistics.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_LighterBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_LighterBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Purple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Purple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="system-search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\system-search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_189664" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info_189664.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GP_Green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GP_Green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Loading.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Searching" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Searching.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PC HOSTNAME" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PC HOSTNAME.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Statistics" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Statistics.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

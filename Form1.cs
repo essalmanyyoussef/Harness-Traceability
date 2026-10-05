@@ -1,28 +1,30 @@
-﻿using Harness_Traceability.Models;
+﻿using DevExpress.CodeParser;
+using DevExpress.Data.NetCompatibility.Extensions;
+using DevExpress.XtraCharts;
+using DevExpress.XtraEditors;
+//using DevExpress.CodeParser.Diagnostics;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraPrinting;
+//using DevExpress.XtraRichEdit;
+using DevExpress.XtraPrinting.Drawing;
+using DevExpress.XtraPrintingLinks;
+using Harness_Traceability.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.IO;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using DevExpress.CodeParser;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraPrintingLinks;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraCharts;
-//using DevExpress.XtraRichEdit;
-using DevExpress.XtraPrinting.Drawing;
-using DevExpress.XtraGrid;
-//using DevExpress.CodeParser.Diagnostics;
-using DevExpress.XtraEditors.Repository;
-using System.Globalization;
 
 
 
@@ -47,6 +49,7 @@ namespace Harness_Traceability
         string Reference;
         string Vision_Hostname = "";
         DateTime Vision_Datetime;
+        string Harness_Serial_Number;
 
         public static Form1 frm_PPl = new Form1();
         public Form1()
@@ -60,10 +63,7 @@ namespace Harness_Traceability
 
         }
 
-        private async void btn_Search_Click(object sender, EventArgs e)
-        {
 
-        }
 
 
         private void UpdateDataGrid(DataGridView grid, DataTable table)
@@ -111,6 +111,10 @@ namespace Harness_Traceability
                 btnSearch.Enabled = false;
                 this.Text = "Harness Traceability Search";
                 btnExport.Enabled = false;
+
+
+
+
                 //// Create an instance of Form2
                 //this.Hide();
                 //Form2 form2 = new Form2();
@@ -293,6 +297,10 @@ namespace Harness_Traceability
         {
             try
             {
+                Harness_Serial_Number = "";
+                labelControl1.Visible = false;
+                labelControl2.Visible = false;
+                tileControl1.Visible = false;
                 btn_Contact.Visible = false;
                 if (txtOutBarcode.Text.Length > 10)
                 {
@@ -310,7 +318,6 @@ namespace Harness_Traceability
                     lbl_More_Details.Visible = false;
 
 
-
                     DataTable data = new DataTable();
                     DataTable data1 = new DataTable();
                     //DataTable data2 = new DataTable();
@@ -319,7 +326,7 @@ namespace Harness_Traceability
                     //ShowProgressBar(true
                     //
                     IMG_Searching.Visible = true;
-                    btn_Search.Enabled = false;
+                    //btn_Search.Enabled = false;
                     txtOutBarcode.Enabled = false;
                     gridControl1.Visible = false; // Changed from dataGridView1 to gridControl1
                     dataGridView2.Visible = false; // Assuming this is still a DataGridView
@@ -400,7 +407,6 @@ namespace Harness_Traceability
     additionalInfo: SN_Details 
 );
 
-
                                 if (RDB_OUT.Checked == true)
                                 {
                                     data = ClsOrders.GetTraceability(serial);
@@ -468,19 +474,61 @@ namespace Harness_Traceability
                         }
                         });
 
-                        gridControl1.DataSource = data; // Changed from dataGridView1 to gridControl1
+                    //gridControl1.DataSource = data; // Changed from dataGridView1 to gridControl1
+
+                    DataTable mergedData = MergeDuplicateRows(data);
+                    gridControl1.DataSource = mergedData;
+
+
                     dataGridView1.DataSource = data;
 
+ //***************************************************-- Vision Report --*****************************************************************
+                    //SetupVisionReportFeature(); // Vision Report Viewer
+//***************************************************************************************************************************************
 
-                    SetupVisionReportFeature(); // Vision Report Viewer
 
-                 
 
-                if (RDBTT.Checked == true || CheckBox_Searching.Checked == true)
+                    string customer;
+                    string project;
+                    string family;
+                    string line;
+                    string bank;
+
+                    if (GetHarnessFamilyInformation(
+                        out customer,
+                        out project,
+                        out family,
+                        out line,
+                        out bank))
+                    {
+                        labelControl2.Text = $"{Harness_Serial_Number}\r\n" +
+                            $"{customer}\r\n" +
+                            $"{project}\r\n" +
+                            $"{family}\r\n" +
+                            $"{line}";
+                        labelControl1.Visible = true;
+                        labelControl2.Visible = true;
+                    }
+                    else
+                    {
+                        labelControl1.Visible = false;
+                        labelControl2.Visible = false;
+                    }
+
+
+                    if (RDBTT.Checked == true || CheckBox_Searching.Checked == true)
                     {
                         dataGridView2.DataSource = data1;
-                        gridControl2.DataSource = data1;
+
+
+                        //gridControl2.DataSource = data1;
+                        DataTable mergedEroorData = MergeDuplicateRows(data1);
+                        gridControl2.DataSource = mergedEroorData;
+
+
+
                         Chart_Traceability();
+                        BuildErrorSummaryTiles();
                         chartControl1.Visible = true;
                     }
                     //gridControl2.DataSource = data1;
@@ -506,7 +554,7 @@ namespace Harness_Traceability
                     btnExport.Enabled = true;
                     btnSearch.Enabled = true;
                     IMG_Searching.Visible = false;
-                    btn_Search.Enabled = true;
+                    //btn_Search.Enabled = true;
                     txtOutBarcode.Enabled = true;
                     //if (data1.Rows.Count > 0 || dataGridView2.Rows.Count > 0 || dataGridView2.DataSource != null)
                     if (data1.Rows.Count > 0)
@@ -529,23 +577,6 @@ namespace Harness_Traceability
                             view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
                             view2.BestFitColumns(); // Adjust columns to fit their content
                         }
-                        //dataGridView2.Columns[0].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[3].Width = 50; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[4].Width = 40; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[5].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[6].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[7].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[8].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[9].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[10].Width = 70; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[11].Width = 90; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[12].Width = 90; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[13].Width = 50; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[14].Width = 60; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[15].Width = 60; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[16].Width = 60; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[17].Width = 60; // Assuming this is still a DataGridView
-                        //dataGridView2.Columns[2].Width = 200; // Assuming this is still a DataGridView
                         if (RDB_OUT.Checked == true)
                         {
                             Harness_Details =
@@ -574,6 +605,7 @@ namespace Harness_Traceability
                             {
                                 ET_Errors();
                                 Chart_Traceability();
+                                BuildErrorSummaryTiles();
                                 chartControl1.Visible = true;
 
                                 //gridControl2.Visible = true;
@@ -601,7 +633,8 @@ namespace Harness_Traceability
                         HideEmptyColumns();
                     }
                     Chart_Traceability();
-                    
+                    BuildErrorSummaryTiles();
+
                 }
                 else
                 {
@@ -829,47 +862,6 @@ namespace Harness_Traceability
             {
                 // Get the GridView associated with gridControl1
                 var gridView = gridControl1.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
-
-                //if (gridView != null) // Ensure the MainView is a GridView
-                //{
-                //    // Loop through each row in the grid
-                //    for (int i = 0; i < gridView.RowCount; i++)
-                //    {
-                //        // Get the value of the 3rd column
-                //        string column3Value = gridView.GetRowCellValue(i, gridView.Columns[2])?.ToString();
-
-                //        // Check if the value contains 'ET' or 'Elec'
-                //        if (!string.IsNullOrEmpty(column3Value) &&
-                //            (column3Value.Contains("ET") || column3Value.Contains("ELEC") || column3Value.Contains("ELECTRIC")|| column3Value.Contains("Test Electric")))
-                //        {
-                //            // Get the value of the 7th column
-
-                //            DataTable DD = new DataTable();
-                //            DataTable DD1 = new DataTable();
-                //            DD = ClsOrders.GetDates(gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString(), Convert.ToDateTime(gridView.GetRowCellValue(i, gridView.Columns[7])?.ToString()));
-                //            if (DD != null)
-                //            {
-                //                label3.Text = DD.Rows[0].ItemArray[7].ToString() + " // " + Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString());
-                //                DD1 = ClsOrders.SelvedError_by_Date(Convert.ToDateTime(DD.Rows[0].ItemArray[7].ToString()), Convert.ToDateTime(DD.Rows[0].ItemArray[8].ToString()), gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString());
-                //                gridControl2.DataSource = DD1;
-                //                gridView2.Columns[11].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
-                //                gridView2.Columns[12].DisplayFormat.FormatString = "dd-MM-yyyy HH:mm:ss";
-                //                GridView view2 = gridControl2.MainView as GridView;
-                //                if (view2 != null)
-                //                {
-                //                    view2.OptionsView.ColumnAutoWidth = false; // Disable automatic column width adjustment
-                //                    view2.BestFitColumns(); // Adjust columns to fit their content
-                //                }
-                //                gridControl2.Visible = true;
-
-                //                Chart_Traceability();
-                //                chartControl1.Visible = true;
-                //            }
-
-
-                //        }
-                //    }
-                //}
                 if (gridView != null)
                 {
                     DataTable masterTable = null;
@@ -940,11 +932,20 @@ namespace Harness_Traceability
                         {
                             view2.OptionsView.ColumnAutoWidth = false;
                             view2.BestFitColumns();
+
+                            view2.OptionsView.RowAutoHeight = false;
+                            // Reduce data row height
+                            view2.RowHeight = 16;
+
+                            // Reduce column header height
+                            view2.ColumnPanelRowHeight = 20;
+
                         }
 
                         gridControl2.Visible = true;
                         Chart_Traceability();
                         chartControl1.Visible = true;
+                        BuildErrorSummaryTiles();
                     }
                 }
 
@@ -959,7 +960,131 @@ namespace Harness_Traceability
                 MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void BuildErrorSummaryTiles()
+        {
+            if (!(gridControl2.DataSource is DataTable dt))
+                return;
 
+            Dictionary<int, string> errorTypeDescriptions =
+                new Dictionary<int, string>()
+            {
+        { 0, "Missing Detection" },
+        { 1, "Extra Detection" },
+        { 2, "Missing Connector" },
+        { 3, "Extra Connector" },
+        { 4, "Short Through Diode" },
+        { 5, "Open In Diode" },
+        { 6, "Diode Inverted" },
+        { 7, "Inversion" },
+        { 8, "Possible Inversion" },
+        { 9, "Short-circuit" },
+        { 10, "No Continuity" },
+        { 11, "Bad End" }
+            };
+
+            tileControl1.BeginUpdate();
+
+            try
+            {
+                tileControl1.Groups.Clear();
+
+                TileGroup group = new TileGroup();
+                tileControl1.Groups.Add(group);
+
+                //-------------------------------------------------
+                // TOTAL ERRORS
+                //-------------------------------------------------
+                TileItem totalTile = new TileItem();
+
+                totalTile.ItemSize = TileItemSize.Medium;
+                totalTile.AppearanceItem.Normal.BackColor = Color.SteelBlue;
+                totalTile.AppearanceItem.Normal.BorderColor = Color.SteelBlue;
+
+                TileItemElement totalTitle = new TileItemElement();
+                totalTitle.Text = "TOTAL ERRORS";
+                totalTitle.TextAlignment = TileItemContentAlignment.TopCenter;
+                totalTitle.Appearance.Normal.Font =
+                    new Font("Segoe UI", 9, FontStyle.Bold);
+
+                TileItemElement totalCount = new TileItemElement();
+                totalCount.Text = dt.Rows.Count.ToString();
+                totalCount.TextAlignment = TileItemContentAlignment.MiddleCenter;
+                totalCount.Appearance.Normal.Font =
+                    new Font("Segoe UI", 16, FontStyle.Bold);
+
+                totalTile.Elements.Add(totalTitle);
+                totalTile.Elements.Add(totalCount);
+
+                group.Items.Add(totalTile);
+
+                //-------------------------------------------------
+                // ERROR TYPES
+                //-------------------------------------------------
+                var summary = dt.AsEnumerable()
+                    .GroupBy(r => Convert.ToInt32(r["Error Type"]))
+                    .Select(g => new
+                    {
+                        ErrorCode = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count);
+
+                foreach (var item in summary)
+                {
+                    string description =
+                        errorTypeDescriptions.ContainsKey(item.ErrorCode)
+                            ? errorTypeDescriptions[item.ErrorCode]
+                            : $"Unknown ({item.ErrorCode})";
+
+                    TileItem tile = new TileItem();
+
+                    tile.ItemSize = TileItemSize.Medium;
+
+                    // Colors
+                    switch (item.ErrorCode)
+                    {
+                        case 10: // No Continuity
+                            tile.AppearanceItem.Normal.BackColor = Color.IndianRed;
+                            break;
+
+                        case 0: // Missing Detection
+                            tile.AppearanceItem.Normal.BackColor = Color.DarkOrange;
+                            break;
+
+                        default:
+                            tile.AppearanceItem.Normal.BackColor = Color.SeaGreen;
+                            break;
+                    }
+
+                    tile.AppearanceItem.Normal.BorderColor =
+                        tile.AppearanceItem.Normal.BackColor;
+
+                    TileItemElement title = new TileItemElement();
+                    title.Text = description.ToUpper();
+                    title.TextAlignment = TileItemContentAlignment.TopCenter;
+                    title.Appearance.Normal.Font =
+                        new Font("Segoe UI", 8, FontStyle.Bold);
+
+                    TileItemElement value = new TileItemElement();
+                    value.Text = item.Count.ToString();
+                    value.TextAlignment = TileItemContentAlignment.MiddleCenter;
+                    value.Appearance.Normal.Font =
+                        new Font("Segoe UI", 16, FontStyle.Bold);
+
+                    tile.Elements.Add(title);
+                    tile.Elements.Add(value);
+
+                    group.Items.Add(tile);
+                }
+
+                tileControl1.Orientation = Orientation.Horizontal;
+                tileControl1.Visible = true;
+            }
+            finally
+            {
+                tileControl1.EndUpdate();
+            }
+        }
         public void Chart_Traceability()
         {
             Dictionary<int, string> errorTypeDescriptions = new Dictionary<int, string>()
@@ -1007,6 +1132,7 @@ namespace Harness_Traceability
             {
                 label.TextPattern = "{A}: {V} ({VP:P0})"; // Label: Name: Count (Percentage)
                 label.Position = PieSeriesLabelPosition.TwoColumns;
+                label.Font = new Font("Segoe UI", 20, FontStyle.Bold);
             }
 
             ((PieSeriesView)series.View).ExplodedDistancePercentage = 10;
@@ -1014,6 +1140,10 @@ namespace Harness_Traceability
 
             // Show legend
             chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+
+
+
+            chartControl1.Visible = false;
         }
 
         public static void WriteLogs(string textToWrite)
@@ -1507,7 +1637,7 @@ namespace Harness_Traceability
             try
             {
                 string formattedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
+                additionalInfo = additionalInfo + " - " + Environment.MachineName;
                 //MessageBox.Show("DEBUG: Formatted Date = " + formattedDate);
 
                 ClsTrackingLog.InsertTrackingLog(
@@ -1515,7 +1645,7 @@ namespace Harness_Traceability
                     site,
                     username,
                     DateTime.Parse(formattedDate),
-                    additionalInfo,
+                    additionalInfo + " - " + Form2.Software_Version,
                     type
                 );
 
@@ -1528,10 +1658,196 @@ namespace Harness_Traceability
         }
 
 
+        private bool GetHarnessFamilyInformation(
+            out string customer,
+            out string project,
+            out string family,
+            out string line,
+            out string bank)
+        {
+            customer = "";
+            project = "";
+            family = "";
+            line = "";
+            bank = "";
+
+            GridView gridView = gridControl1.MainView as GridView;
+
+            if (gridView == null)
+                return false;
+
+            for (int i = 0; i < gridView.RowCount; i++)
+            {
+                string station =
+                    gridView.GetRowCellValue(i, gridView.Columns[2])?.ToString();
+
+                if (string.IsNullOrWhiteSpace(station))
+                    continue;
+
+                bool isETStation =
+                    station.IndexOf("ET", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    station.IndexOf("ELEC", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    station.IndexOf("ELECTRIC", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    station.IndexOf("Test Electric", StringComparison.OrdinalIgnoreCase) >= 0;
+
+                if (!isETStation)
+                    continue;
+
+                string hostname =
+    gridView.GetRowCellValue(i, gridView.Columns[10])?.ToString();
+
+                Harness_Serial_Number =
+                    gridView.GetRowCellValue(i, gridView.Columns[6])?.ToString();
+
+                if (string.IsNullOrWhiteSpace(hostname))
+                    continue;
+
+                object dtValue =
+                    gridView.GetRowCellValue(i, gridView.Columns[7]);
+
+                if (dtValue == null)
+                    continue;
+
+                DateTime testDate = Convert.ToDateTime(dtValue);
+
+                DataTable dtBank = null;
+
+                // Support merged hostnames:
+                // MOASETS019/MOASETS130/MOASETS150
+                string[] hostnames = hostname.Split(
+                    new[] { '/' },
+                    StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string host in hostnames)
+                {
+                    dtBank = ClsOrders.GetStationFamily(
+                        host.Trim(),
+                        testDate.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                    if (dtBank != null && dtBank.Rows.Count > 0)
+                    {
+                        break; // First valid hostname found
+                    }
+                }
+
+                if (dtBank == null || dtBank.Rows.Count == 0)
+                    continue;
+                bank = dtBank.Rows[0]["Bank"]?.ToString();
+
+                if (string.IsNullOrWhiteSpace(bank))
+                    continue;
+
+                //------------------------------------
+                // VALIDATE BANK FORMAT
+                //------------------------------------
+                string[] parts = bank.Split('_');
+
+                // Example:
+                // STL_EBEP_TURBO_L2_ET
+                if (parts.Length < 5)
+                    continue; // <-- Try next ET row
+
+                string stationType = parts[parts.Length - 1];
+                string parsedLine = parts[parts.Length - 2];
+
+                if (!parsedLine.StartsWith("L", StringComparison.OrdinalIgnoreCase))
+                    continue; // <-- Try next ET row
+
+                if (!stationType.Equals("ET", StringComparison.OrdinalIgnoreCase) &&
+                    !stationType.Equals("CT", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue; // <-- Try next ET row
+                }
+
+                //------------------------------------
+                // CUSTOMER MAPPING
+                //------------------------------------
+                string customerCode = parts[0];
+
+                if (customerCode.Equals("PSA", StringComparison.OrdinalIgnoreCase) ||
+                    customerCode.Equals("STL", StringComparison.OrdinalIgnoreCase))
+                {
+                    customer = "STELLANTIS";
+                }
+                else if (customerCode.Equals("TYT", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Equals("TOY", StringComparison.OrdinalIgnoreCase))
+                {
+                    customer = "TOYOTA";
+                }
+                else if (customerCode.Equals("SUZ", StringComparison.OrdinalIgnoreCase))
+                {
+                    customer = "SUZUKI";
+                }
+                else if (customerCode.Contains("RNLT", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("RENA", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("RSA", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("RNL", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("RNT", StringComparison.OrdinalIgnoreCase))
+                {
+                    customer = "RENAULT";
+                }
+                else if (customerCode.Contains("NIS", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("NISS", StringComparison.OrdinalIgnoreCase) ||
+                         customerCode.Contains("NSN", StringComparison.OrdinalIgnoreCase)) 
+                {
+                    customer = "NISSAN";
+                }
+                else
+                {
+                    customer = customerCode;
+                }
+
+                project = parts[1];
+
+                family = string.Join("_",
+                    parts.Skip(2).Take(parts.Length - 4));
+
+                line = parsedLine;
+
+                return true; // First VALID bank found
+            }
+
+            return false;
+        }
 
 
+        private DataTable MergeDuplicateRows(DataTable dt)
+        {
+            DataTable result = dt.Clone();
 
+            var compareColumns = dt.Columns.Cast<DataColumn>()
+                                           .Where(c => c.ColumnName != "Hostname")
+                                           .ToList();
 
+            var groups = dt.AsEnumerable()
+                           .GroupBy(row =>
+                               string.Join("§",
+                                   compareColumns.Select(c =>
+                                       row[c] == DBNull.Value ? "" : row[c].ToString())));
 
+            foreach (var group in groups)
+            {
+                DataRow newRow = result.NewRow();
+
+                foreach (DataColumn col in dt.Columns)
+                {
+                    newRow[col.ColumnName] = group.First()[col.ColumnName];
+                }
+
+                newRow["Hostname"] = string.Join("/",
+                    group.Select(r => r["Hostname"]?.ToString())
+                         .Where(h => !string.IsNullOrWhiteSpace(h))
+                         .Distinct());
+
+                result.Rows.Add(newRow);
+            }
+
+            return result;
+        }
+
+        private void chartControl1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

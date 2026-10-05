@@ -88,7 +88,7 @@
             // 
             // barButtonItem3
             // 
-            this.barButtonItem3.Caption = "Harness S/N";
+            this.barButtonItem3.Caption = "Station Production History";
             this.barButtonItem3.Id = 3;
             this.barButtonItem3.ImageOptions.LargeImageKey = "financial-statement.png";
             this.barButtonItem3.Name = "barButtonItem3";
@@ -170,6 +170,7 @@
             this.ClientSize = new System.Drawing.Size(1096, 632);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.IconOptions.Image = global::Harness_Traceability.Properties.Resources.sews_logo;
             this.IsMdiContainer = true;
             this.Name = "frmPrincipal";
             this.Ribbon = this.ribbon;

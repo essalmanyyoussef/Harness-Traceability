@@ -429,6 +429,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Loading.gif" />
+    <None Include="Resources\Defect Harness.png" />
+    <None Include="Resources\Harness Statistics.png" />
+    <None Include="Resources\PC HOSTNAME.png" />
+    <None Include="Resources\Statistics.png" />
     <Content Include="sews-e.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

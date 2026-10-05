@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Harness_Traceability.Models
 {
@@ -18,6 +19,11 @@ namespace Harness_Traceability.Models
         public static DataTable GetTraceability(string p)
         {
             return ClsData.ExecuteView("correlations_trial", "DISTINCT Ref AS Reference, BC AS [Travel Ticket Label], Test AS Station, \r\n       IN_Barcode_1 AS [2nd Label], IN_Barcode_2 AS [3rd Travel Ticket Label], \r\n       IN_Barcode_3 AS [4th Travel Ticket Label], OUT_Barcode AS [Final Label], \r\n       DateEnd AS [Test Date], Rework AS Reworked, Rework_ID AS [Rework ID] , Hostname", "OUT_Barcode='"+p+ "'");
+        }
+
+        public static DataTable GetStationFamily(string HostN, string DateRunTime)
+        {
+            return ClsData.ExecuteView("AggregatedCorrelations", "TOP(1) Bank", "Hostname = '" + HostN + "' and RunTimestamp > '" + DateRunTime + "'");
         }
         public static DataTable GetHostnameByOutBarcode(string p)
         {

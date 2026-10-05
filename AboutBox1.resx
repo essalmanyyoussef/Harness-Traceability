@@ -118,19 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBoxDescription.Text" xml:space="preserve">
-    <value>Harness Traceability Software is a tool that gives users quick and easy access to electrical harness test data. It helps teams track, review, and understand the full history of each harness tested.
+    <value>Harness Traceability V2.0.0 is a centralized software solution that provides quick and reliable access to electrical harness test data across all SEWS-E sites. It enables users to retrieve traceability information, investigate defects, analyze production data, and generate reports through a single platform.
 
-With this software, you can:
+With this software, users can:
+     - Retrieve complete harness traceability information and review all test processes performed throughout the manufacturing journey.
+     - Generate professional PDF traceability reports containing test results, error details, and graphical error analysis.
+     - Identify and analyze defective harnesses within a selected period to support quality investigations and corrective actions.
+     - Retrieve all tested Harness S/Ns from a selected station and date range.
+     - Monitor production performance through dynamic charts, statistics, and reference distribution analysis.
+     - Export search results to Excel for further analysis, reporting, and information sharing.
+     - Use advanced filtering tools to quickly locate and analyze specific production data.
 
-- Extract a full harness traceability report to see test results and error details.
-- List all harness serial numbers (S/N) produced in a selected period.
-- Identify and extract all defective harness serial numbers (S/N) for fast troubleshooting.
+The software is designed with a modern and user-friendly interface that simplifies navigation and improves access to critical information. By centralizing traceability, defect analysis, reporting, and production analytics, Harness Traceability V2.0.0 helps reduce investigation time, improve data accuracy, and support better decision-making across Production, Quality, and Engineering teams.
 
-The software is designed to be simple to use, with clear navigation and organized data. It reduces manual work, improves accuracy, and supports quality control by making all test information available in one place.
+Developed by: SEWS-E Central Electrical Test Team
 
-Harness Traceability Software helps you work faster, make better decisions, and maintain high-quality standards in harness production.
-
-This tool was developed by the Central Electrical Test. 
-For support, contact : SEWS-ECentralElectricalTestEngineers@sgcci.onmicrosoft.com</value>
+Support Contact:
+SEWS-ECentralElectricalTestEngineers@sgcci.onmicrosoft.com</value>
   </data>
 </root>

@@ -33,6 +33,17 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.lstAttachments = new DevExpress.XtraEditors.ListBoxControl();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.txtAttachmentPN = new DevExpress.XtraEditors.TextEdit();
+            this.txtConnectorPN = new DevExpress.XtraEditors.TextEdit();
             this.dateDueDate = new DevExpress.XtraEditors.DateEdit();
             this.lookupSite = new DevExpress.XtraEditors.LookUpEdit();
             this.lookupSupplier = new DevExpress.XtraEditors.LookUpEdit();
@@ -41,8 +52,6 @@
             this.memoDescription = new DevExpress.XtraEditors.TextEdit();
             this.txtTitle = new DevExpress.XtraEditors.TextEdit();
             this.btnAddImage = new DevExpress.XtraEditors.ButtonEdit();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -50,21 +59,23 @@
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.txtConnectorPN = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.txtAttachmentPN = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem14 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lstAttachments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttachmentPN.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtConnectorPN.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateDueDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateDueDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookupSite.Properties)).BeginInit();
@@ -74,8 +85,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.memoDescription.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTitle.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnAddImage.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
@@ -83,18 +92,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConnectorPN.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAttachmentPN.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -159,6 +159,110 @@
             this.lstAttachments.Size = new System.Drawing.Size(934, 99);
             this.lstAttachments.StyleController = this.layoutControl1;
             this.lstAttachments.TabIndex = 12;
+            // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlGroup1,
+            this.layoutControlGroup2,
+            this.layoutControlGroup3,
+            this.layoutControlItem12});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(982, 715);
+            this.Root.TextVisible = false;
+            // 
+            // layoutControlGroup1
+            // 
+            this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1,
+            this.layoutControlItem2,
+            this.layoutControlItem3,
+            this.layoutControlItem4,
+            this.layoutControlItem5,
+            this.layoutControlItem6,
+            this.layoutControlItem7,
+            this.layoutControlItem13,
+            this.layoutControlItem14});
+            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 60);
+            this.layoutControlGroup1.Name = "layoutControlGroup1";
+            this.layoutControlGroup1.Size = new System.Drawing.Size(962, 362);
+            this.layoutControlGroup1.Text = "Claim Information";
+            // 
+            // layoutControlGroup2
+            // 
+            this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem8,
+            this.layoutControlItem9});
+            this.layoutControlGroup2.Location = new System.Drawing.Point(0, 422);
+            this.layoutControlGroup2.Name = "layoutControlGroup2";
+            this.layoutControlGroup2.Size = new System.Drawing.Size(962, 185);
+            this.layoutControlGroup2.Text = "Attachments";
+            // 
+            // layoutControlItem9
+            // 
+            this.layoutControlItem9.Control = this.lstAttachments;
+            this.layoutControlItem9.Location = new System.Drawing.Point(0, 40);
+            this.layoutControlItem9.Name = "layoutControlItem9";
+            this.layoutControlItem9.Size = new System.Drawing.Size(938, 103);
+            this.layoutControlItem9.TextVisible = false;
+            // 
+            // layoutControlGroup3
+            // 
+            this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.emptySpaceItem1,
+            this.layoutControlItem10,
+            this.layoutControlItem11});
+            this.layoutControlGroup3.Location = new System.Drawing.Point(0, 607);
+            this.layoutControlGroup3.Name = "layoutControlGroup3";
+            this.layoutControlGroup3.Size = new System.Drawing.Size(962, 88);
+            this.layoutControlGroup3.Text = "Actions";
+            // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.Location = new System.Drawing.Point(262, 0);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(676, 46);
+            // 
+            // layoutControlItem10
+            // 
+            this.layoutControlItem10.Control = this.btnSave;
+            this.layoutControlItem10.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem10.Name = "layoutControlItem10";
+            this.layoutControlItem10.Size = new System.Drawing.Size(131, 46);
+            this.layoutControlItem10.TextVisible = false;
+            // 
+            // layoutControlItem11
+            // 
+            this.layoutControlItem11.Control = this.btnCancel;
+            this.layoutControlItem11.Location = new System.Drawing.Point(131, 0);
+            this.layoutControlItem11.Name = "layoutControlItem11";
+            this.layoutControlItem11.Size = new System.Drawing.Size(131, 46);
+            this.layoutControlItem11.TextVisible = false;
+            // 
+            // layoutControlItem12
+            // 
+            this.layoutControlItem12.Control = this.label1;
+            this.layoutControlItem12.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem12.Name = "layoutControlItem12";
+            this.layoutControlItem12.Size = new System.Drawing.Size(962, 60);
+            this.layoutControlItem12.TextVisible = false;
+            // 
+            // txtAttachmentPN
+            // 
+            this.txtAttachmentPN.Location = new System.Drawing.Point(572, 222);
+            this.txtAttachmentPN.Name = "txtAttachmentPN";
+            this.txtAttachmentPN.Size = new System.Drawing.Size(386, 36);
+            this.txtAttachmentPN.StyleController = this.layoutControl1;
+            this.txtAttachmentPN.TabIndex = 16;
+            // 
+            // txtConnectorPN
+            // 
+            this.txtConnectorPN.Location = new System.Drawing.Point(103, 222);
+            this.txtConnectorPN.Name = "txtConnectorPN";
+            this.txtConnectorPN.Size = new System.Drawing.Size(386, 36);
+            this.txtConnectorPN.StyleController = this.layoutControl1;
+            this.txtConnectorPN.TabIndex = 15;
             // 
             // dateDueDate
             // 
@@ -249,37 +353,7 @@
             this.btnAddImage.Size = new System.Drawing.Size(855, 36);
             this.btnAddImage.StyleController = this.layoutControl1;
             this.btnAddImage.TabIndex = 11;
-            //this.btnAddImage.EditValueChanged += new System.EventHandler(this.btnAddImage_EditValueChanged);
             this.btnAddImage.Click += new System.EventHandler(this.btnAddImage_Click);
-            // 
-            // Root
-            // 
-            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlGroup1,
-            this.layoutControlGroup2,
-            this.layoutControlGroup3,
-            this.layoutControlItem12});
-            this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(982, 715);
-            this.Root.TextVisible = false;
-            // 
-            // layoutControlGroup1
-            // 
-            this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
-            this.layoutControlItem2,
-            this.layoutControlItem3,
-            this.layoutControlItem4,
-            this.layoutControlItem5,
-            this.layoutControlItem6,
-            this.layoutControlItem7,
-            this.layoutControlItem13,
-            this.layoutControlItem14});
-            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 60);
-            this.layoutControlGroup1.Name = "layoutControlGroup1";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(962, 362);
-            this.layoutControlGroup1.Text = "Claim Information";
             // 
             // layoutControlItem1
             // 
@@ -344,82 +418,6 @@
             this.layoutControlItem7.Text = "Due Date: ";
             this.layoutControlItem7.TextSize = new System.Drawing.Size(75, 13);
             // 
-            // layoutControlGroup2
-            // 
-            this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem8,
-            this.layoutControlItem9});
-            this.layoutControlGroup2.Location = new System.Drawing.Point(0, 422);
-            this.layoutControlGroup2.Name = "layoutControlGroup2";
-            this.layoutControlGroup2.Size = new System.Drawing.Size(962, 185);
-            this.layoutControlGroup2.Text = "Attachments";
-            // 
-            // layoutControlItem8
-            // 
-            this.layoutControlItem8.Control = this.btnAddImage;
-            this.layoutControlItem8.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(938, 40);
-            this.layoutControlItem8.Text = "Attach Images";
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(75, 13);
-            // 
-            // layoutControlItem9
-            // 
-            this.layoutControlItem9.Control = this.lstAttachments;
-            this.layoutControlItem9.Location = new System.Drawing.Point(0, 40);
-            this.layoutControlItem9.Name = "layoutControlItem9";
-            this.layoutControlItem9.Size = new System.Drawing.Size(938, 103);
-            this.layoutControlItem9.TextVisible = false;
-            // 
-            // layoutControlGroup3
-            // 
-            this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.emptySpaceItem1,
-            this.layoutControlItem10,
-            this.layoutControlItem11});
-            this.layoutControlGroup3.Location = new System.Drawing.Point(0, 607);
-            this.layoutControlGroup3.Name = "layoutControlGroup3";
-            this.layoutControlGroup3.Size = new System.Drawing.Size(962, 88);
-            this.layoutControlGroup3.Text = "Actions";
-            // 
-            // emptySpaceItem1
-            // 
-            this.emptySpaceItem1.Location = new System.Drawing.Point(262, 0);
-            this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(676, 46);
-            // 
-            // layoutControlItem10
-            // 
-            this.layoutControlItem10.Control = this.btnSave;
-            this.layoutControlItem10.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(131, 46);
-            this.layoutControlItem10.TextVisible = false;
-            // 
-            // layoutControlItem11
-            // 
-            this.layoutControlItem11.Control = this.btnCancel;
-            this.layoutControlItem11.Location = new System.Drawing.Point(131, 0);
-            this.layoutControlItem11.Name = "layoutControlItem11";
-            this.layoutControlItem11.Size = new System.Drawing.Size(131, 46);
-            this.layoutControlItem11.TextVisible = false;
-            // 
-            // layoutControlItem12
-            // 
-            this.layoutControlItem12.Control = this.label1;
-            this.layoutControlItem12.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem12.Name = "layoutControlItem12";
-            this.layoutControlItem12.Size = new System.Drawing.Size(962, 60);
-            this.layoutControlItem12.TextVisible = false;
-            // 
-            // txtConnectorPN
-            // 
-            this.txtConnectorPN.Location = new System.Drawing.Point(103, 222);
-            this.txtConnectorPN.Name = "txtConnectorPN";
-            this.txtConnectorPN.Size = new System.Drawing.Size(386, 36);
-            this.txtConnectorPN.StyleController = this.layoutControl1;
-            this.txtConnectorPN.TabIndex = 15;
-            // 
             // layoutControlItem13
             // 
             this.layoutControlItem13.Control = this.txtConnectorPN;
@@ -429,14 +427,6 @@
             this.layoutControlItem13.Text = "Connector PN:";
             this.layoutControlItem13.TextSize = new System.Drawing.Size(75, 13);
             // 
-            // txtAttachmentPN
-            // 
-            this.txtAttachmentPN.Location = new System.Drawing.Point(572, 222);
-            this.txtAttachmentPN.Name = "txtAttachmentPN";
-            this.txtAttachmentPN.Size = new System.Drawing.Size(386, 36);
-            this.txtAttachmentPN.StyleController = this.layoutControl1;
-            this.txtAttachmentPN.TabIndex = 16;
-            // 
             // layoutControlItem14
             // 
             this.layoutControlItem14.Control = this.txtAttachmentPN;
@@ -445,6 +435,15 @@
             this.layoutControlItem14.Size = new System.Drawing.Size(469, 40);
             this.layoutControlItem14.Text = "Attachment PN:";
             this.layoutControlItem14.TextSize = new System.Drawing.Size(75, 13);
+            // 
+            // layoutControlItem8
+            // 
+            this.layoutControlItem8.Control = this.btnAddImage;
+            this.layoutControlItem8.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem8.Name = "layoutControlItem8";
+            this.layoutControlItem8.Size = new System.Drawing.Size(938, 40);
+            this.layoutControlItem8.Text = "Attach Images";
+            this.layoutControlItem8.TextSize = new System.Drawing.Size(75, 13);
             // 
             // frmClaim
             // 
@@ -458,6 +457,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lstAttachments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttachmentPN.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtConnectorPN.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateDueDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateDueDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookupSite.Properties)).EndInit();
@@ -467,8 +477,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.memoDescription.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTitle.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnAddImage.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
@@ -476,18 +484,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConnectorPN.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAttachmentPN.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             this.ResumeLayout(false);
 
         }

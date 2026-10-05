@@ -18,6 +18,7 @@ namespace Harness_Traceability
 {
     public partial class Form2 : Form
     {
+        public static string Software_Version;
         public Form2()
         {
             InitializeComponent();
@@ -164,6 +165,7 @@ namespace Harness_Traceability
         {
             try
             {
+                Software_Version = "V2.0.0";
                 UserPrincipal user = UserPrincipal.Current;
                 textBox1.Text = user.DisplayName;
             }

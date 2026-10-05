@@ -103,23 +103,44 @@ namespace Harness_Traceability
                 LoadDailyHarnessChart();
 
                 // Build AdditionalInfo
-                string cleanDate1 = Date1.Text.Split(' ')[0];
-                string cleanDate2 = Date2.Text.Split(' ')[0];
+                //string cleanDate1 = Date1.Text.Split(' ')[0];
+                //string cleanDate2 = Date2.Text.Split(' ')[0];
 
-                string dateTime1 = $"{cleanDate1}T{Time1.Text}";
-                string dateTime2 = $"{cleanDate2}T{Time2.Text}";
+                //string dateTime1 = $"{cleanDate1}T{Time1.Text}";
+                //string dateTime2 = $"{cleanDate2}T{Time2.Text}";
 
-                string additionalInfo = txtHostname.Text + $"- {dateTime1} - {dateTime2}";
+                //string additionalInfo = txtHostname.Text + $"- {dateTime1} - {dateTime2}";
 
 
-                // Call the logging method
-                Form1.WriteLogsToDatabase(
-                    serialNumber: "",
-                    site: "",
-                    username: Form2.User_name,
-                    type: "Harness Stat.",
-                    additionalInfo: additionalInfo
-                );
+                //// Call the logging method
+                //Form1.WriteLogsToDatabase(
+                //    serialNumber: "",
+                //    site: "",
+                //    username: Form2.User_name,
+                //    type: "Harness Stat.",
+                //    additionalInfo: additionalInfo
+                //);
+
+                DateTime startDateTime;
+                DateTime endDateTime;
+
+                if (!DateTime.TryParse(Date1.Text + " " + Time1.Text, out startDateTime))
+                {
+                    throw new Exception("Invalid Start Date");
+                }
+
+                if (!DateTime.TryParse(Date2.Text + " " + Time2.Text, out endDateTime))
+                {
+                    throw new Exception("Invalid End Date");
+                }
+
+                string additionalInfo = "STATISTIC HARNESSES : " + txtHostname.Text.Trim().ToUpper();
+
+               Statistics.WriteStatisticsLogToDatabase(
+                    Form2.User_name,
+                    startDateTime,
+                    endDateTime,
+                    additionalInfo);
             }
             catch (Exception ex)
             {
@@ -373,6 +394,186 @@ namespace Harness_Traceability
             {
                 MessageBox.Show("Export failed: " + ex.Message);
             }
+        }
+
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            if (gridControl1 == null)
+            {
+                MessageBox.Show("Grid is not available.");
+                return;
+            }
+
+            // Get the main view (usually GridView)
+            var view = gridControl1.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+
+            // Check if view exists and has rows
+            if (view == null || view.RowCount == 0)
+            {
+                MessageBox.Show("There is no data to export.");
+                return;
+            }
+
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Filter = "Excel Files (*.xlsx)|*.xlsx",
+                Title = "Export to Excel",
+                FileName = "ExportedData.xlsx"
+            };
+
+            if (saveDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                gridControl1.ExportToXlsx(saveDialog.FileName);
+                MessageBox.Show("Export completed successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Export failed: " + ex.Message);
+            }
+        }
+
+        private async void simpleButton2_Click(object sender, EventArgs e)
+        {
+            string hostname = txtHostname.Text.Trim();
+
+            if (hostname.Length < 4)
+            {
+                MessageBox.Show("Hostname is too short. Please enter a valid Hostname.");
+                return;
+            }
+
+            string prefix = hostname.Substring(0, 4).ToUpper();
+            Dictionary<string, string> serverMap = new Dictionary<string, string>
+    {
+        { "MOAS", "MOASMLS001" },
+        { "MOFZ", "MOFZMLS001" },
+        { "MOKE", "MOKEMLS001" },
+        { "MOAA", "MOAAMLS001" },
+        { "MOSK", "MOSKMLS001" },
+        { "EGPS", "EGPSMLS001" },
+        { "EGTR", "EGTRMLS001" },
+        { "EGSO", "EGSOMLS001" },
+        { "ROAI", "ROAIMLS001" },
+        { "RODV", "RODVMLS001" },
+        { "TNMO", "TNMOMLS001" }
+    };
+
+            if (!serverMap.TryGetValue(prefix, out string Server))
+            {
+                MessageBox.Show("This Hostname doesn't exist, please check and enter the correct Hostname.");
+                return;
+            }
+
+            // Validate dates
+            if (!DateTime.TryParse(Date1.Text + " " + Time1.Text, out DateTime startDate) ||
+                !DateTime.TryParse(Date2.Text + " " + Time2.Text, out DateTime endDate))
+            {
+                MessageBox.Show("Invalid date or time format.");
+                return;
+            }
+
+            if (startDate >= endDate)
+            {
+                MessageBox.Show("Start date must be earlier than end date.");
+                return;
+            }
+
+            if ((endDate - startDate).TotalDays > 365)
+            {
+                MessageBox.Show("Date range cannot exceed 365 days.");
+                return;
+            }
+
+            // Show loading UI
+            PB_Loading.Visible = true;
+            lblLoading.Visible = true;
+            gridControl1.Visible = false;
+            chartControl1.Visible = false;
+            chartControl2.Visible = false;
+            PB_Loading.BringToFront();
+
+            try
+            {
+                // Run heavy work in background thread
+                DataTable dt = await Task.Run(() =>
+                {
+                    // Connect to server
+                    ClsData.Connect(Server, "wtr", "wtrviewuser", "alarm-S7D46S");
+
+                    // Execute heavy query
+                    return ClsOrders.Statistics(
+                        hostname,
+                        Date1.Text + " " + Time1.Text,
+                        Date2.Text + " " + Time2.Text
+                    );
+                });
+
+                // Update UI after background work
+                gridControl1.DataSource = dt;
+                LoadReferencePieChart();
+                LoadDailyHarnessChart();
+
+                // Build AdditionalInfo
+                //string cleanDate1 = Date1.Text.Split(' ')[0];
+                //string cleanDate2 = Date2.Text.Split(' ')[0];
+
+                //string dateTime1 = $"{cleanDate1}T{Time1.Text}";
+                //string dateTime2 = $"{cleanDate2}T{Time2.Text}";
+
+                //string additionalInfo = txtHostname.Text + $"- {dateTime1} - {dateTime2}";
+
+
+                //// Call the logging method
+                //Form1.WriteLogsToDatabase(
+                //    serialNumber: "",
+                //    site: "",
+                //    username: Form2.User_name,
+                //    type: "Harness Stat.",
+                //    additionalInfo: additionalInfo
+                //);
+
+                DateTime startDateTime;
+                DateTime endDateTime;
+
+                if (!DateTime.TryParse(Date1.Text + " " + Time1.Text, out startDateTime))
+                {
+                    throw new Exception("Invalid Start Date");
+                }
+
+                if (!DateTime.TryParse(Date2.Text + " " + Time2.Text, out endDateTime))
+                {
+                    throw new Exception("Invalid End Date");
+                }
+
+                string additionalInfo = "STATISTIC HARNESSES : " + txtHostname.Text.Trim().ToUpper();
+
+                Statistics.WriteStatisticsLogToDatabase(
+                     Form2.User_name,
+                     startDateTime,
+                     endDateTime,
+                     additionalInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                // Restore UI
+                PB_Loading.Visible = false;
+                lblLoading.Visible = false;
+                gridControl1.Visible = true;
+                chartControl1.Visible = true;
+                chartControl2.Visible = true;
+            }
+        }
+
+        private void simpleButton5_Click(object sender, EventArgs e)
+        {
+            new frmHostname().ShowDialog();
         }
     }
 }
